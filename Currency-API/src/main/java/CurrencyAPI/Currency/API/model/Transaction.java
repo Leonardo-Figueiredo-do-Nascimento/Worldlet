@@ -14,7 +14,8 @@ public class Transaction {
 
     @Column(length = 30, nullable = false)
     private String operation;
-
+    @Column(length = 30,nullable = false)
+    private String currency;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
     private Date operationDate;
@@ -23,12 +24,21 @@ public class Transaction {
     private float operationAmount;
 
     @ManyToOne
-    @JoinColumn(name = "idUsuario", nullable = false)
-    private User idUsuario;
+    @JoinColumn(name = "idSender", nullable = false)
+    private User senderUser;
 
     @ManyToOne
-    @JoinColumn(name = "idDestino", nullable = false)
-    private User idDestino;
+    @JoinColumn(name = "idRecipient", nullable = false)
+    private User recipientUser;
+
+    public Transaction(String operation, Date operationDate, float operationAmount, String currency,User senderUser, User recipientUser) {
+        this.operation = operation;
+        this.operationDate = operationDate;
+        this.operationAmount = operationAmount;
+        this.senderUser = senderUser;
+        this.recipientUser = recipientUser;
+        this.currency = currency;
+    }
 
     public int getIdTransaction() {
         return idTransaction;
@@ -62,19 +72,27 @@ public class Transaction {
         this.operationAmount = operationAmount;
     }
 
-    public User getIdUsuario() {
-        return idUsuario;
+    public User getSenderUser() {
+        return senderUser;
     }
 
-    public void setIdUsuario(User idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setSenderUser(User senderUser) {
+        this.senderUser = senderUser;
     }
 
-    public User getIdDestino() {
-        return idDestino;
+    public User getRecipientUser() {
+        return recipientUser;
     }
 
-    public void setIdDestino(User idDestino) {
-        this.idDestino = idDestino;
+    public void setRecipientUser(User recipientUser) {
+        this.recipientUser = recipientUser;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 }

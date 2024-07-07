@@ -19,6 +19,14 @@ public class Wallet {
     @Column(nullable = false)
     private User user;
 
+    public Wallet(String currency, float amount, String currencySymbol, String isoCode, User user) {
+        this.currency = currency;
+        this.amount = amount;
+        this.currencySymbol = currencySymbol;
+        this.isoCode = isoCode;
+        this.user = user;
+    }
+
     public int getWalletId() {
         return walletId;
     }
