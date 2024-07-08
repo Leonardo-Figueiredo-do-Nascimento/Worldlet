@@ -19,14 +19,6 @@ public class User {
     @Column(nullable = false)
     private float totalAmount;
 
-    public User(String userName, String email, String password, String country, float totalAmount) {
-        this.userName = userName;
-        this.email = email;
-        this.password = password;
-        this.country = country;
-        this.totalAmount = totalAmount;
-    }
-
     public int getIdUser() {
         return idUser;
     }

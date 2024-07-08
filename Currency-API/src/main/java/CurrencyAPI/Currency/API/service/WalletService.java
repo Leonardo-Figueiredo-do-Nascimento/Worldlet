@@ -15,7 +15,6 @@ public class WalletService {
     private TransactionService transactionService;
     @Autowired
     private UserService userService;
-    @Autowired
     private Wallet wallet;
 
     public void createWallet(User user, String currency,float currencyAmount,String currencySymbol,String isoCode){

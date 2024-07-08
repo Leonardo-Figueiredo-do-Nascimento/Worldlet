@@ -14,15 +14,12 @@ public class TransactionService {
     @Autowired
     private TransactionRepository repository;
 
-    @Autowired
-    private WalletService walletService;
-
     public void createTransaction(User sender,User recipient,String currency, String operation, float opAmount){
         Transaction transaction = new Transaction(operation,new Date(),opAmount,currency,sender,recipient);
         repository.save(transaction);
     }
 
-    public List<Transaction> getUserTransactions(Integer userId) {
-        return repository.findBySenderUserIdOrRecipientUserId(userId);
-    }
+//    public List<Transaction> getUserTransactions(Integer userId) {
+//        return repository.findBySenderUserIdOrRecipientUserId(userId);
+//    }
 }

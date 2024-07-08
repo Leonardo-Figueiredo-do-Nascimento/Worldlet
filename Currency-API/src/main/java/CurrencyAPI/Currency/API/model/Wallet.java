@@ -16,15 +16,16 @@ public class Wallet {
     private String currencySymbol;
     @Column(length = 3,nullable = false)
     private String isoCode;
-    @Column(nullable = false)
-    private User user;
+    @ManyToOne
+    @JoinColumn(name="id_user",nullable = false)
+    private User userWallet;
 
     public Wallet(String currency, float amount, String currencySymbol, String isoCode, User user) {
         this.currency = currency;
         this.amount = amount;
         this.currencySymbol = currencySymbol;
         this.isoCode = isoCode;
-        this.user = user;
+        this.userWallet = user;
     }
 
     public int getWalletId() {
@@ -68,10 +69,10 @@ public class Wallet {
     }
 
     public User getUser() {
-        return user;
+        return userWallet;
     }
 
     public void setUser(User user) {
-        this.user = user;
+        this.userWallet = user;
     }
 }

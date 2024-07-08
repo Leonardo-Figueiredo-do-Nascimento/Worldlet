@@ -24,11 +24,11 @@ public class Transaction {
     private float operationAmount;
 
     @ManyToOne
-    @JoinColumn(name = "idSender", nullable = false)
+    @JoinColumn(name = "id_sender", nullable = false)
     private User senderUser;
 
     @ManyToOne
-    @JoinColumn(name = "idRecipient", nullable = false)
+    @JoinColumn(name = "id_recipient", nullable = false)
     private User recipientUser;
 
     public Transaction(String operation, Date operationDate, float operationAmount, String currency,User senderUser, User recipientUser) {
