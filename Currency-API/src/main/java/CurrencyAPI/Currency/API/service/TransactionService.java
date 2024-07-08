@@ -5,6 +5,8 @@ import CurrencyAPI.Currency.API.model.User;
 import CurrencyAPI.Currency.API.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -13,18 +15,14 @@ public class TransactionService {
     private TransactionRepository repository;
 
     @Autowired
-    private Transaction transaction;
+    private WalletService walletService;
 
     public void createTransaction(User sender,User recipient,String currency, String operation, float opAmount){
-        transaction.setCurrency(currency);
-        transaction.setRecipientUser(recipient);
-        transaction.setSenderUser(sender);
-        transaction.setOperation(operation);
-        transaction.setOperationAmount(opAmount);
+        Transaction transaction = new Transaction(operation,new Date(),opAmount,currency,sender,recipient);
         repository.save(transaction);
     }
 
-    public List<Transaction> getUserTransactions(){
-        return repository.findAll();
+    public List<Transaction> getUserTransactions(Integer userId) {
+        return repository.findBySenderUserIdOrRecipientUserId(userId);
     }
 }

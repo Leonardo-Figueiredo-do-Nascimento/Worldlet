@@ -44,6 +44,14 @@ public class WalletService {
             walletRepository.save(wallet);
         } ;
     }
+    public void selfDeposit(Wallet wallet, float amount){
+        depositWalletAmount(wallet.getUser().getIdUser(),amount);
+        transactionService.createTransaction(wallet.getUser(),wallet.getUser(),wallet.getCurrency(),"Self Deposit",amount);
+    }
+    public void withdrawalWallet(Wallet wallet, float amount){
+        debitWalletAmount(wallet.getUser().getIdUser(),amount);
+        transactionService.createTransaction(wallet.getUser(),wallet.getUser(),wallet.getCurrency(),"Withdrawal",amount);
+    }
 
     public void transferMoney(User sender,User recipient,String currency,float amount){
         debitWalletAmount(sender.getIdUser(),amount);
