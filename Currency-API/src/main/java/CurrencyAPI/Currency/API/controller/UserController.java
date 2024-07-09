@@ -8,15 +8,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/{user_name}")
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping
-    public Optional<User> getUserData(@PathVariable("user_name") String userName){
+    @GetMapping("/{user_name}")
+    public User getUserData(@PathVariable("user_name") String userName){
         return userService.getUserByName(userName);
     };
 
+    @PostMapping
+    public void saveUser(@RequestBody User user){
+        userService.createUser(user);
+    }
 }

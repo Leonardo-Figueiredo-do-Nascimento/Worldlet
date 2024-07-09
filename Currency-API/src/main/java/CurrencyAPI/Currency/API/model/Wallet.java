@@ -20,6 +20,8 @@ public class Wallet {
     @JoinColumn(name="id_user",nullable = false)
     private User userWallet;
 
+    public Wallet(){}
+
     public Wallet(String currency, float amount, String currencySymbol, String isoCode, User user) {
         this.currency = currency;
         this.amount = amount;

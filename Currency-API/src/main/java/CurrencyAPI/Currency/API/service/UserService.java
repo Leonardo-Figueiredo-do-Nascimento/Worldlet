@@ -17,7 +17,7 @@ public class UserService {
       repository.save(user);
     };
 
-    public Optional<User> getUserByName(String username){
+    public User getUserByName(String username){
       return repository.findByUserName(username);
     };
 

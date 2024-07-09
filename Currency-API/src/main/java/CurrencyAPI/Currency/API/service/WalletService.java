@@ -6,6 +6,8 @@ import CurrencyAPI.Currency.API.repository.WalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class WalletService {
 
@@ -16,6 +18,13 @@ public class WalletService {
     @Autowired
     private UserService userService;
 
+    public List<Wallet> getUserWallets(User user){
+        return walletRepository.findAllByUserWallet(user);
+    }
+
+    public void createWallet(Wallet wallet){
+        walletRepository.save(wallet);
+    }
     public void createWallet(User user, String currency,float currencyAmount,String currencySymbol,String isoCode){
         Wallet wallet = new Wallet(currency,currencyAmount,currencySymbol,isoCode,user);
         walletRepository.save(wallet);
