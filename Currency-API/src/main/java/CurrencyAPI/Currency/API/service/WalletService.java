@@ -15,14 +15,9 @@ public class WalletService {
     private TransactionService transactionService;
     @Autowired
     private UserService userService;
-    private Wallet wallet;
 
     public void createWallet(User user, String currency,float currencyAmount,String currencySymbol,String isoCode){
-        wallet.setUser(user);
-        wallet.setCurrency(currency);
-        wallet.setAmount(currencyAmount);
-        wallet.setCurrencySymbol(currencySymbol);
-        wallet.setIsoCode(isoCode);
+        Wallet wallet = new Wallet(currency,currencyAmount,currencySymbol,isoCode,user);
         walletRepository.save(wallet);
     }
     public void deleteWallet(Wallet wallet){

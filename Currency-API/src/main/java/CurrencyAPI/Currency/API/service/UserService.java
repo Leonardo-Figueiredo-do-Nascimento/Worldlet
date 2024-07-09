@@ -5,6 +5,8 @@ import CurrencyAPI.Currency.API.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
 
@@ -13,6 +15,10 @@ public class UserService {
 
     public void createUser(User user){
       repository.save(user);
+    };
+
+    public Optional<User> getUserByName(String username){
+      return repository.findByUserName(username);
     };
 
     public void deleteUser(User user){
