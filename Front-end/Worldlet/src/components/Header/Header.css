@@ -1,3 +1,9 @@
+a{
+    width: auto;
+    height: auto;
+    text-decoration: none;
+}
+
 .header{
     height: 10%;
     width: 100%;
@@ -5,12 +11,60 @@
     color: white;
     background-color: black;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center; 
     padding: 10px;
-    /* flex-wrap: wrap; */
+    padding-left: 24%;
 }
 
-h1{
+#logo{
     color: aliceblue;
+    font-size: 85px;
+    height: auto;
+    width: auto;
+    border: 50px solid black;
+    border-radius: 100%;
+    background-color: black;
+}
+
+.links{
+    width: auto;
+    height: auto;
+    font-size: 30px;
+    color: white;
+    text-decoration: none;
+    padding: 20px;
+}
+
+.sign-links{
+    width: auto;
+    height: auto;
+    font-size: 25px;
+    color: black;
+    text-decoration: none;
+    padding: 20px;
+    margin-right: 8px;
+    background-color: aliceblue;
+    border-radius: 20px;
+}
+.links:hover{
+    background-color: white;
+    color: black;
+    transition: 0.5s;
+}
+.sign-links:hover{
+    background-color: rgb(0, 119, 255);
+    color: azure;
+    transition: 0.5s;
+}
+#logo:hover{
+    background-color: white;
+    color: black;
+    border-color: white;
+    transition: 0.5s;
+}
+.login{
+    width: auto;
+    height: auto;
+    padding-left: 200px;
 }

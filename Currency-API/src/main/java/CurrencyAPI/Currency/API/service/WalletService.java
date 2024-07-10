@@ -58,7 +58,7 @@ public class WalletService {
 
     public void transferMoney(User sender,User recipient,String currency,float amount){
         debitWalletAmount(sender.getIdUser(),amount);
-        transactionService.createTransaction(sender,recipient,currency,"Deposit",amount);
+        transactionService.createTransaction(sender,recipient,currency,"Deposit Transfer",amount);
         depositWalletAmount(recipient.getIdUser(),amount);
         transactionService.createTransaction(sender,recipient,currency,"Incoming Transfer",amount);
     }
