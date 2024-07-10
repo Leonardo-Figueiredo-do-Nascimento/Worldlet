@@ -10,8 +10,8 @@ export default function Header(){
                 <Link className='links' to={"/How-to-get-started"}>How to get started</Link>
             </>
             <div className="login">
-                <Link className='sign-links'>Sign In</Link>
-                <Link className='sign-links'>Sign Up</Link>
+                <Link className='sign-links' to={"/Sign-in"}>Sign In</Link>
+                <Link className='sign-links' to={"/Sign-up"}>Sign Up</Link>
             </div>
         </div>
     )

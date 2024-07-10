@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 import Header from "../../components/Header/Header"
 import "./Wwo.css"
 
-export default function Home(){
+export default function Wwo(){
     return(
         <div className='container'>
             <Header/>
@@ -15,7 +15,7 @@ export default function Home(){
                     <li className="item3">Make payments during international trips with the currency of the country you are visiting.</li>
                     <li className="item4">Zero transaction fees.</li>
                 </ul>
-                <Link className="start-now" >Start now</Link>
+                <Link className="start-now" to={"/Sign-up"}>Start now</Link>
             </div>
         </div>
     )

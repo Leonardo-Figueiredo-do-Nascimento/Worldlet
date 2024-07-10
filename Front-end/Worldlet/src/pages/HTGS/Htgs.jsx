@@ -2,17 +2,17 @@ import { Link } from "react-router-dom"
 import Header from "../../components/Header/Header"
 import "./Htgs.css"
 
-export default function Home(){
+export default function Htgs(){
     return(
         <div className='container'>
             <Header/>
             <div className="content">
-                <h2>Open your worldwide wallet today</h2>
+                <h2>How to get started</h2>
 
-                <h4>Worldlet is the first multi-currency digital wallet application available in the world.
-                    What are you waiting for? Start saving money in any currency you want and use any currency for specific payments.
+                <h4>To get started you will need to create an account with your email and a strong password, 
+                    then you will have to provide your name and your current country in order to establish a default currency. 
                 </h4>
-                <Link className="start-now" >Start now</Link>
+                <Link className="start-now" to={"/Sign-up"}>Start now</Link>
             </div>
         </div>
     )

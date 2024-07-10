@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom"
 import Header from "../../components/Header/Header"
-import "./Home.css"
+import "./Sign_in.css"
 
-export default function Home(){
+export default function Sign_in(){
     return(
         <div className='container'>
             <Header/>
@@ -12,7 +12,7 @@ export default function Home(){
                 <h4>Worldlet is the first multi-currency digital wallet application available in the world.
                     What are you waiting for? Start saving money in any currency you want and use any currency for specific payments.
                 </h4>
-                <Link className="start-now" to={"/Sign-up"}>Start now</Link>
+                <Link className="start-now" >Start now</Link>
             </div>
         </div>
     )
