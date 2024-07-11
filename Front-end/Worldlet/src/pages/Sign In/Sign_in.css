@@ -1,60 +1,58 @@
-.container{
-    background-image: url('../../../public/World3.webp');
-    background-repeat: no-repeat;
-    background-size: cover;
+.login-container{
     height: 100%;
     width: 100%;
 }
-
-.content{
+.login-content{
+    
+    background-color: rgb(68, 67, 67);
     height: 90%;
-    width: 90%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 0 15%;
-    margin-left: 80px;
 }
-
-h2{
+#login-h3{
     height: auto;
-    color: aliceblue;
-    background-color: rgba(0,0,0,0.7);
     width: auto;
-    font-size: 8vh;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 45px;
+    margin-bottom: 5%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+.login-form{
+    height: 60%;
+    width: 30%;
+    background-color: rgb(219, 219, 219);
+    display: flex;
     border-radius: 20px;
-    padding: 10px;
-    margin-bottom: 100px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
-
-h4{
+label{
+    width: 300px;
     height: auto;
-    color: aliceblue;
-    background-color: rgba(0,0,0,0.7);
-    width: auto;
-    font-size: 6vh;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    border-radius: 20px;
-    padding: 10px;
-    margin-bottom: 100px;
+    font-size: 20px;
 }
-
-.start-now{
-    width: auto;
-    height: auto;
-    font-size: 30px;
+form input{
+    width: 300px;
+    height: 50px;
+    padding-left: 1%;
+    font-size: 20px;
+    margin-bottom: 4%;
+}
+form input[type="submit"]{
+    margin-top: 10%;
+    height: 8%;
+    width: 30%;
+    border-radius: 10px;
+    border: none;
+    background-color: rgba(69, 96, 252, 0.952);
     color: white;
-    text-decoration: none;
-    padding: 20px;
-    background-color: black;
-    border: 5px solid white;
-    border-radius: 20px;
 }
-.start-now:hover{
-    background-color: white;
-    color: black;
-    border: 5px solid black;
-    transition: 0.5s;
+
+form p{
+    height: auto;
+    width: auto;
+    font-size: 17px;
 }
