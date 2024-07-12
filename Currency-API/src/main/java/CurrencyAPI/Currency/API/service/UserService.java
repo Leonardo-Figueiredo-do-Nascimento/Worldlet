@@ -13,12 +13,16 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
-    public void createUser(User user){
-      repository.save(user);
+    public User createUser(User user){
+      return repository.save(user);
     };
 
-    public User getUserByName(String username){
+    public Optional<User> getUserByName(String username){
       return repository.findByUserName(username);
+    };
+
+    public Optional<User> getUserByEmail(String email){
+        return repository.findByEmail(email);
     };
 
     public void deleteUser(User user){

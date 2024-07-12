@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class WalletService {
@@ -18,7 +19,7 @@ public class WalletService {
     @Autowired
     private UserService userService;
 
-    public List<Wallet> getUserWallets(User user){
+    public List<Wallet> getUserWallets(Optional<User> user){
         return walletRepository.findAllByUserWallet(user);
     }
 
