@@ -1,18 +1,30 @@
 import { Link } from "react-router-dom"
+import CountryInput from "../../components/CountryInput/CountryInput"
 import Header from "../../components/Header/Header"
 import "./Sign_up.css"
 
 export default function Sign_up(){
-    return(
-        <div className='container'>
-            <Header/>
-            <div className="content">
-                <h2>Open your worldwide wallet today</h2>
+    const signup = ()=>{
 
-                <h4>Worldlet is the first multi-currency digital wallet application available in the world.
-                    What are you waiting for? Start saving money in any currency you want and use any currency for specific payments.
-                </h4>
-                <Link className="start-now" >Start now</Link>
+    }
+
+    return(
+        <div className='signup-container'>
+            <Header/>
+            <div className="signup-content">
+                <form className="signup-form" onSubmit={signup}>
+                    <h3 id="signup-h3">Sign Up</h3>
+                    <label>Full Name:</label>
+                    <input type="text" placeholder="Enter your complete name"/>
+                    <label>E-mail:</label>
+                    <input type="email" placeholder="Enter email"/>
+                    <label>Country:</label>
+                    <div className="countryInput"><CountryInput/></div>
+                    <label>Password:</label>
+                    <input type="password" placeholder="Enter password"/>
+                    <input type="submit" value="Login"/>
+                    <p>Already have an account? <Link to={"/Sign-in"}>Login</Link></p>
+                </form>
             </div>
         </div>
     )
