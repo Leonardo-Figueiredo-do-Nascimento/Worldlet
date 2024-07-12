@@ -44,7 +44,7 @@ form input{
     border: 1px solid #aaa;
 }
 form input[type="submit"]{
-    margin-top: 10%;
+    margin-top: 8%;
     height: 8%;
     width: 30%;
     border-radius: 10px;

@@ -2,7 +2,7 @@ import { useState,useEffect } from 'react'
 import './CountryInput.css'
 import Autosuggest from 'react-autosuggest';
 
-export default function CountryInput() {
+export default function CountryInput({onCountrySelect}) {
   const [countries,setCountries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -62,6 +62,10 @@ export default function CountryInput() {
   const onSuggestionsClearRequested = () => {
     setSuggestions([]);
   };
+
+  const onSuggestionSelected = (event, { suggestion }) => {
+    onCountrySelect(suggestion.name.common);
+  };
   
   const inputProps = {
     placeholder: 'Enter your country',
@@ -78,6 +82,7 @@ export default function CountryInput() {
         getSuggestionValue={getSuggestionValue}
         renderSuggestion={renderSuggestion}
         inputProps={inputProps}
+        onSuggestionSelected={onSuggestionSelected}
       />
     </div>
   );
