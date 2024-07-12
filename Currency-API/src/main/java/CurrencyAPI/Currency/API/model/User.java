@@ -8,26 +8,24 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idUser;
-    @Column(length = 80,nullable = false)
+    @Column(length = 80, nullable = false)
     private String userName;
-    @Column(length = 30,nullable = false)
+    @Column(length = 30, nullable = false)
     private String email;
-    @Column(length = 50,nullable = false)
+    @Column(length = 50, nullable = false)
     private String password;
-    @Column(length = 50,nullable = false)
+    @Column(length = 50, nullable = false)
     private String country;
-    @Column(nullable = false)
-    private float totalAmount;
-    public User(){
+
+    public User() {
 
     }
 
-    public User(String userName, String email, String password, String country, float totalAmount) {
+    public User(String userName, String email, String password, String country) {
         this.userName = userName;
         this.email = email;
         this.password = password;
         this.country = country;
-        this.totalAmount = totalAmount;
     }
 
     public int getIdUser() {
@@ -68,13 +66,5 @@ public class User {
 
     public void setCountry(String country) {
         this.country = country;
-    }
-
-    public float getTotalAmount() {
-        return totalAmount;
-    }
-
-    public void setTotalAmount(float totalAmount) {
-        this.totalAmount = totalAmount;
     }
 }

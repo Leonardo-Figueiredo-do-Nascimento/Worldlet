@@ -18,18 +18,25 @@ public class WalletController {
     @Autowired
     private WalletService walletService;
 
-    @PostMapping
-    public void saveWallet(@RequestBody Wallet wallet){
-        walletService.createWallet(wallet);
-    }
-
     @GetMapping
     public List<Wallet> getAllWallets(@PathVariable("user_name") String userName){
         return walletService.getUserWallets(userService.getUserByName(userName));
     }
+    @PostMapping("/new-wallet")
+    public void saveWallet(@RequestBody Wallet wallet){
+        walletService.createWallet(wallet);
+    }
 
-//    @GetMapping("/{id_user}")
-//    public List<Wallet> getAllWallets(@PathVariable int idUser){
-//        return walletService.getUserWallets(idUser);
-//    }
+    @PutMapping("/deposit-wallet/{amount}")
+    public void depositWallet(@RequestBody Wallet wallet,@PathVariable("amount") float amount){
+        walletService.depositWalletAmount(wallet.getWalletId(),amount);
+    }
+    @PutMapping("/debit-wallet/{amount}")
+    public void debitWallet(@RequestBody Wallet wallet,@PathVariable("amount") float amount){
+        walletService.debitWalletAmount(wallet.getWalletId(),amount);
+    }
+    @DeleteMapping
+    public void deleteWallet(@RequestBody Wallet wallet){
+        deleteWallet(wallet);
+    }
 }

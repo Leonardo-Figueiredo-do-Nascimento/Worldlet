@@ -28,19 +28,4 @@ public class UserService {
     public void deleteUser(User user){
         repository.delete(user);
     }
-
-    public void depositUserTotalAmount(int id, float amount){
-        User user = repository.findById(id).orElse(null);
-        if (user != null) {
-            user.setTotalAmount(user.getTotalAmount()+amount);
-            repository.save(user);
-        } ;
-    }
-    public void debitUserTotalAmount(int id, float amount){
-        User user = repository.findById(id).orElse(null);
-        if (user != null) {
-            user.setTotalAmount(user.getTotalAmount()-amount);
-            repository.save(user);
-        } ;
-    }
 }
