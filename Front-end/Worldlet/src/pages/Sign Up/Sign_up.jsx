@@ -16,11 +16,11 @@ export default function Sign_up(){
         setData(()=>{
             return {
                 user: {
-                    user_name: name,
+                    userName: name,
                     email: email,
                     country: country,
                     password: password,
-                    total_amount: 0
+                    totalAmount: 0
                 }
             }
         })
@@ -56,7 +56,7 @@ export default function Sign_up(){
                     <div className="countryInput"><CountryInput onCountrySelect={handleCountrySelect}/></div>
                     <label>Password:</label>
                     <input type="password" placeholder="Enter password" value={password} onChange={(e)=>setPassword(e.target.value)} required/>
-                    <input type="submit" value="Login"/>
+                    <input type="submit" value="Sign Up"/>
                     <p>Already have an account? <Link to={"/Sign-in"}>Login</Link></p>
                 </form>
             </div>
