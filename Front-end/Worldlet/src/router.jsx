@@ -5,6 +5,8 @@ import Wwo from './pages/WWO/Wwo'
 import Sign_up from './pages/Sign Up/Sign_up'
 import Sign_in from './pages/Sign In/Sign_in'
 import User_Page from './pages/User Page/User_page'
+import CreditCards from './pages/Credit Cards/CreditCards'
+import Transactions from './pages/Transactions/Transactions'
 
 const router = createBrowserRouter([
     {
@@ -30,6 +32,15 @@ const router = createBrowserRouter([
     {
         path: "/account/:user_name",
         element: <User_Page/>
+    }
+    ,
+    {
+        path: "/account/:user_name/cards",
+        element: <CreditCards/>
+    },
+    {
+        path: "/account/:user_name/transactions",
+        element: <Transactions/>
     }
 ])
 

@@ -7,7 +7,6 @@ a{
     flex-direction: row;
     align-items: center;
 }
-
 .user-header{
     height: 10%;
     width: 100%;
@@ -29,15 +28,37 @@ a{
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(0, 0, 0, 0));
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.8), 0 0 50px rgba(255, 255, 255, 0.8);
 }
-
+.user-center{
+    width: 30%;
+    display: flex;
+    flex-direction: row;
+    margin-left: 30%;
+}
+.user-links{
+    width: auto;
+    height: auto;
+    font-size: 30px;
+    background-color: white;
+    color: black;
+    text-decoration: none;
+    padding: 20px;
+    margin-left: 5%;
+    border-radius: 150px;
+}
+.user-links:hover{
+    background-color: black;
+    color: white;
+    border: 3px solid white;
+    transition: 0.1s;
+}
 #logo-user{
     color: aliceblue;
     font-size: 80px;
     height: auto;
     width: auto;
-    margin-left: 40%;
     background-color: black;
     pointer-events: none;
+    margin-left: 5%;
 }
 
 .logout{

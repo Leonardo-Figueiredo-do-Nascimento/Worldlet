@@ -1,0 +1,13 @@
+#go-back{
+    height: 45px;
+    width: 60px;
+    border-radius: 100%;
+    margin-right: 90%;
+    margin-bottom: 40%;
+}
+
+#go-back img{
+    height: 60px;
+    width: 60px;
+    position: absolute;
+}

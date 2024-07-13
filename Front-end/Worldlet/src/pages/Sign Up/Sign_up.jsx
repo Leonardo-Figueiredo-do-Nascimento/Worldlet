@@ -10,8 +10,11 @@ export default function Sign_up(){
     const [email,setEmail] = useState('')
     const [country,setCountry] = useState('')
     const [password,setPassword] = useState('')
+    const [countryInfo,setCountryInfo] = useState([])
+    const [defaultWallet,setDefaultWallet] = useState({})
     const [data,setData] = useState({})
 
+    //Setting User data
     useEffect(()=>{
         setData(()=>{
             return {
@@ -19,18 +22,42 @@ export default function Sign_up(){
                     userName: name,
                     email: email,
                     country: country,
-                    password: password,
-                    totalAmount: 0
+                    password: password
                 }
             }
         })
     },[name,email,country,password])
 
+    //Getting selected country informations
+    useEffect(() => {
+        if(country){
+            fetch(`https://restcountries.com/v3.1/name/${country}`)
+                .then(response => response.json())
+                .then(data => setCountryInfo(data));
+        }
+        
+    }, [country]);
+
+    //Setting default wallet information
+    useEffect(()=>{
+        if (countryInfo.length > 0 && countryInfo[0].currencies) {
+            const currencyKey = Object.keys(countryInfo[0].currencies)[0];
+            setDefaultWallet(() => ({
+                wallet: {
+                    currency: countryInfo[0].currencies[currencyKey].name,
+                    currencySymbol: countryInfo[0].currencies[currencyKey].symbol,
+                    isoCode: currencyKey,
+                    amount: 0.0,
+                    user: data.user
+                }
+            }));
+        }
+    },[countryInfo,data])
+
     const handleCountrySelect = (selectedCountry) => {
         setCountry(selectedCountry);
-      };
+    };
     
-
     const signup = async (e)=> {
         e.preventDefault();
         if(name != '' && email != '' && password != '' && country != ''){
@@ -38,7 +65,10 @@ export default function Sign_up(){
             const userData = JSON.stringify(data)
 
             console.log(userData)
+            
+            const walletData = JSON.stringify(defaultWallet)
 
+            console.log(walletData)
         } 
     }
 
