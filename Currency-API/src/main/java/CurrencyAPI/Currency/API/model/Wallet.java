@@ -3,7 +3,7 @@ package CurrencyAPI.Currency.API.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "wallet_tb")
+@Table(name = "wallets_tb")
 public class Wallet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
