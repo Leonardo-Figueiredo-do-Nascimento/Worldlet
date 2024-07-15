@@ -4,10 +4,53 @@
     border-radius: 100%;
     margin-right: 90%;
     margin-bottom: 40%;
+    position: absolute;
 }
-
 #go-back img{
     height: 60px;
     width: 60px;
     position: absolute;
+}
+
+.card-form{
+    height: auto;
+    width: 60%;
+    background-color: rgb(44, 41, 41);
+    padding: 3%;
+}
+form{
+    display: grid;
+    grid-template-columns: 3fr 3fr 3fr;
+}
+.card-form input{
+    height: auto;
+    width: 70%;
+    font-size: 2.7vh;
+    padding: 5px;
+    background-color: rgba(0, 0, 0, 0.527);
+    color: white;
+    padding-left: 2%;
+}
+.card-form label{
+    height: auto;
+    width: auto;
+    font-size: 25px;
+    color: white;
+}
+.card-input{
+    display: flex;
+    flex-direction: column;
+}
+#number-input{
+    width: 80%;
+}
+#name-input{
+    padding: 1%;
+    width: 70%;
+}
+#card-name-input{
+    grid-column: 1/-1;
+}
+#date-input,#cvc-input{
+    width: 30%;
 }
