@@ -83,7 +83,7 @@ export default function Sign_up(){
                     <label>E-mail:</label>
                     <input type="email" placeholder="Enter email" value={email} onChange={(e)=>setEmail(e.target.value)} required/>
                     <label>Country:</label>
-                    <div className="countryInput"><CountryInput onCountrySelect={handleCountrySelect}/></div>
+                    <div id="countryInput"><CountryInput onCountrySelect={handleCountrySelect}/></div>
                     <label>Password:</label>
                     <input type="password" placeholder="Enter password" value={password} onChange={(e)=>setPassword(e.target.value)} required/>
                     <input type="submit" value="Sign Up"/>

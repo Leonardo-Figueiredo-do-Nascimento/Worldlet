@@ -6,7 +6,7 @@ export default function Wwo(){
     return(
         <div className='container'>
             <Header/>
-            <div className="content">
+            <div className="wwo-content">
                 <h2>What we offer</h2>
 
                 <ul className="custom-list">

@@ -1,22 +1,32 @@
 #go-back{
-    height: 45px;
-    width: 60px;
-    border-radius: 100%;
+    height: 9vh;
+    width: 9vh;
     margin-right: 90%;
     margin-bottom: 40%;
     position: absolute;
 }
 #go-back img{
-    height: 60px;
-    width: 60px;
+    height: 9vh;
+    width: 9vh;
+    border-radius: 100%;
     position: absolute;
 }
-
+.first-card-div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#first-card-h2{
+    height: auto;
+    width: auto;
+    background: transparent;
+}
 .card-form{
     height: auto;
     width: 60%;
     background-color: rgb(44, 41, 41);
     padding: 3%;
+    border-radius: 20px;
 }
 form{
     display: grid;
@@ -26,20 +36,30 @@ form{
     height: auto;
     width: 70%;
     font-size: 2.7vh;
-    padding: 5px;
+    padding: 0.7vh;
     background-color: rgba(0, 0, 0, 0.527);
+    border: 1px solid gray;
+    border-radius: 10px;
     color: white;
     padding-left: 2%;
+    margin-bottom: 2%;
 }
 .card-form label{
     height: auto;
     width: auto;
-    font-size: 25px;
+    font-size: 3.4vh;
     color: white;
 }
 .card-input{
     display: flex;
     flex-direction: column;
+}
+.decision{
+    margin-top: 10%;
+    margin-left: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 #number-input{
     width: 80%;
@@ -53,4 +73,30 @@ form{
 }
 #date-input,#cvc-input{
     width: 30%;
+}
+.decision input[type="submit"]{
+    margin-right: 4%;
+    background-color: green;
+    border: 2px solid white;
+    border-radius: 20px;
+    cursor: pointer;
+}
+.decision input[type="button"]{
+    margin-right: 4%;
+    background-color: red;
+    border: 2px solid white;
+    border-radius: 20px;
+    cursor: pointer;
+}
+.decision input[type="submit"]:hover{
+    color: green;
+    background-color: white;
+    border: 2px solid green;
+    transition: 0.5s;
+}
+.decision input[type="button"]:hover{
+    color: red;
+    background-color: white;
+    border: 2px solid red;
+    transition: 0.5s;
 }

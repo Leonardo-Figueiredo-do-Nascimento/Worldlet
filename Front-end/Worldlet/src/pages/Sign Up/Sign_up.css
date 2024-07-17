@@ -14,8 +14,8 @@
 #signup-h3{
     height: auto;
     width: auto;
-    font-size: 45px;
-    margin-bottom: 5%;
+    font-size: 5vh;
+    margin-bottom: 2%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
 }
 .signup-form{
@@ -29,21 +29,21 @@
     align-items: center;
 }
 label{
-    width: 300px;
+    width: 80%;
     height: auto;
     font-size: 20px;
     font-family: Arial, Helvetica, sans-serif;
 }
-form input{
-    width: 300px;
-    height: 50px;
+.signup-form input{
+    width: 80%;
+    height: 8%;
     padding-left: 1%;
-    font-size: 20px;
-    margin-bottom: 4%;
+    font-size: 3vh;
+    margin-bottom: 2%;
     border-radius: 4px;
     border: 1px solid #aaa;
 }
-form input[type="submit"]{
+.signup-form input[type="submit"]{
     margin-top: 8%;
     height: 8%;
     width: 30%;
@@ -51,16 +51,18 @@ form input[type="submit"]{
     border: none;
     background-color: rgba(69, 96, 252, 0.952);
     color: white;
+    cursor: pointer;
 }
-
-form p{
+.signup-form p{
     height: auto;
     width: auto;
-    font-size: 17px;
+    display: flex;
+    flex-direction: row;
 }
-
-.countryInput{
-    width: auto;
-    height: auto;
-    margin-bottom: 4%;
+.signup-form a{
+    color: blue;
+}
+#countryInput{
+    width: 80%;
+    height: 10%;
 }

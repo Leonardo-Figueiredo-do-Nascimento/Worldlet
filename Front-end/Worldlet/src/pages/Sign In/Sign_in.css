@@ -15,12 +15,12 @@
 #login-h3{
     height: auto;
     width: auto;
-    font-size: 45px;
+    font-size: 6vh;
     margin-bottom: 5%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
 }
 .login-form{
-    height: 60%;
+    height: 70%;
     width: 30%;
     background-color: rgb(219, 219, 219);
     display: flex;
@@ -29,30 +29,35 @@
     justify-content: center;
     align-items: center;
 }
-label{
-    width: 300px;
+
+.login-form label{
+    width: 70%;
     height: auto;
-    font-size: 20px;
+    font-size: 3vh;
 }
-form input{
-    width: 300px;
-    height: 50px;
+.login-form input{
+    width: 70%;
+    height: 10%;
     padding-left: 1%;
-    font-size: 20px;
-    margin-bottom: 4%;
+    font-size: 3vh;
+    margin-bottom: 3%;
 }
-form input[type="submit"]{
+.login-form input[type="submit"]{
     margin-top: 10%;
-    height: 8%;
+    height: 10%;
     width: 30%;
     border-radius: 10px;
+    cursor: pointer;
     border: none;
     background-color: rgba(69, 96, 252, 0.952);
     color: white;
 }
-
-form p{
+.login-form p{
     height: auto;
     width: auto;
-    font-size: 17px;
+    display: flex;
+    flex-direction: row;
+}
+.login-form a{
+    color: blue;
 }

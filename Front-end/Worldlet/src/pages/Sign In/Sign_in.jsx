@@ -42,7 +42,7 @@ export default function Sign_in(){
                     <label>Password:</label>
                     <input type="password" placeholder="Enter password" value={password} onChange={(e)=>setPassword(e.target.value)} required/>
                     <input type="submit" value="Login"/>
-                    <p>Don't have an account? <Link to={"/Sign-up"}>Signup</Link></p>
+                    <p>Don't have an account?<Link to={"/Sign-up"}>Signup</Link></p>
                 </form>
             </div>
         </div>

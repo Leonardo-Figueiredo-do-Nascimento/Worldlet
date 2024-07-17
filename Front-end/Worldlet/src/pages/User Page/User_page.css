@@ -1,47 +1,11 @@
-a{
-    width: auto;
-    height: auto;
-    text-decoration: none;
-}
-.header{
-    height: 10%;
-    width: 100%;
-    font-size: 20px;
-    color: white;
-    background-color: black;
-    display: flex;
-    justify-content: center;
-    align-items: center; 
-    padding: 10px;
-    padding-left: 24%;
-}
-#logoUser{
-    color: aliceblue;
-    font-size: 80px;
-    height: auto;
-    width: auto;
-    background-color: black;
-}
-.links{
-    width: auto;
-    height: auto;
-    font-size: 30px;
-    color: white;
-    text-decoration: none;
-    padding: 20px;
-}
-.login{
-    width: auto;
-    height: auto;
-    padding-left: 200px;
-}
 .user-container{
     height: 100%;
     width: 100%;
     background-image: url('../../../public/User World 3.jpg');
+    background-size: cover;
 }
 .overlay {
-    background: rgba(0, 0, 0, 0.9); /* Adiciona uma camada semi-transparente preta */
+    background: rgba(0, 0, 0, 0.9);
     display: flex;
     justify-content: center;
     align-items: center;
