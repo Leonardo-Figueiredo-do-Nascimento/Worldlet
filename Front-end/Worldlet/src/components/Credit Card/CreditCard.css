@@ -3,9 +3,28 @@
     width: 60%;
     background-color: rgb(68, 73, 73);
     border-radius: 25px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-bottom: 2%;
 }
-p{
+.user-credit-card-info{
     height: auto;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+}
+.user-credit-card-info p{
+    height: auto;
+    width: auto;
+    color: white;
+    background-color: rgb(44, 43, 43);
+    font-size: 4vh;
+    padding: 1vh;
+    border-radius: 10px;
+}
+.user-credit-card-info label{
     width: auto;
     color: white;
 }

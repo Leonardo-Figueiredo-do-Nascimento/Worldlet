@@ -12,15 +12,19 @@ export default function CreditCards(){
     const [cardNumber,setCardNumber] = useState('')
     const [cvc,setCvc] = useState('')
     const [expDate, setExpDate] = useState('');
+    const [company, setCompany] = useState('');
+    const [register,setRegister] = useState(false)
     const [card,setCard] = useState({})
     const [cards,setCards] = useState([])
     const [addCard,setAddCard] = useState(false)
     const {user_name} = useParams()
     
+    //UseEffect to set the card values
     useEffect(()=>{
         setCard(()=>
             {
                 return {
+                    cardCompany: company,
                     cardName: cardName,
                     cardNumber: cardNumber,
                     cardCVC: cvc,
@@ -28,14 +32,37 @@ export default function CreditCards(){
                 }
             }
         )
-    },[cardName,cardNumber,cvc,expDate])
+    },[cardName,company,cardNumber,cvc,expDate])
+    
+    //UseEffect to add the new card to cards
+    useEffect(() => {
+        if (card.cardName && card.cardNumber && card.cardCVC && card.cardExpirationDate&&register==true) {
+            setCards(prevCards => [...prevCards, card]);
+            setRegister(false)
+        }
+    }, [card,register]);
 
     const registerCard = (e) => {
         e.preventDefault();
+        setRegister(true)
         console.log(card)
         console.log(cards)
         clear();
     };
+    const setNumberAndCompany = (e)=>{
+        let inputValue = e.target.value.replace(/\D/g, ''); 
+        setCardNumber(inputValue)
+        if(inputValue.slice(0,1)==="6"){
+            setCompany("Discover")
+        } else if(inputValue.slice(0,1)==="5"){
+            setCompany("Mastercard")
+        } else if(inputValue.slice(0,1)==="4"){
+            setCompany("Visa")
+        }else if(inputValue.slice(0, 2) === "34" || inputValue.slice(0, 2) === "37"){
+            setCompany("American Express")
+        }
+    }
+
     const formatDate = (e) => {
         let inputValue = e.target.value.replace(/\D/g, ''); 
       if (inputValue.length <= 2) {
@@ -61,19 +88,23 @@ export default function CreditCards(){
     return(
         <div>
             <UserHeader/>
-            <div className="user-container">
+            <div className="user-cards-container">
                 <div className="overlay">
                     <Link to={`/account/${user_name}`} id="go-back"><img src="../../../public/Go back icon.png"/></Link>
                     {
                         cards.length>0 ? (
                             <div className="cards">
                                 <h2 id="cards-h2">Your credit cards</h2>
-                                <CreditCard
-                                    cardNumber={cards.cardNumber}
-                                    cardName={cards.cardName}
-                                    cardCVC={cards.cardCVC}
-                                    cardExpirationDate={cards.cardExpirationDate}
-                                />
+                                {cards.map((card, index) => (
+                                    <CreditCard
+                                        key={index}
+                                        cardCompany={card.cardCompany}
+                                        cardNumber={card.cardNumber}
+                                        cardName={card.cardName}
+                                        cardCVC={card.cardCVC}
+                                        cardExpirationDate={card.cardExpirationDate}
+                                    />
+                                ))}
                                 <button id="add-card" onClick={()=>setAddCard(!addCard)}>ADD NEW CARD</button>
                                 {
                                     addCard==true ? (
@@ -85,7 +116,7 @@ export default function CreditCards(){
                                                 </div>
                                                 <div className="card-input">
                                                     <label>Card Number:</label>
-                                                    <input type="text" id="number-input" placeholder="####-####-####-####" maxLength={20} value={cardNumber} onChange={(e)=>setCardNumber(e.target.value)} required/>
+                                                    <input type="text" id="number-input" placeholder="####-####-####-####" maxLength={16} value={cardNumber} onChange={setNumberAndCompany} required/>
                                                 </div>
                                                 <div className="card-input">
                                                     <label>Expiration Date:</label>
@@ -93,7 +124,7 @@ export default function CreditCards(){
                                                 </div>
                                                 <div className="card-input">
                                                     <label>CVC:</label>
-                                                    <input type="text" id="cvc-input" placeholder="..." minLength={3} maxLength={5} value={cvc} onChange={(e)=>setCvc(e.target.value)} required/>
+                                                    <input type="text" id="cvc-input" placeholder="..." minLength={3} maxLength={4} value={cvc} onChange={(e)=>setCvc(e.target.value)} required/>
                                                 </div>
                                                 <div className="decision">
                                                     <input type="submit" value="Save"/>
@@ -115,7 +146,7 @@ export default function CreditCards(){
                                         </div>
                                         <div className="card-input">
                                             <label>Card Number:</label>
-                                            <input type="text" id="number-input" placeholder="####-####-####-####" maxLength={20} value={cardNumber} onChange={(e)=>setCardNumber(e.target.value)} required/>
+                                            <input type="text" id="number-input" placeholder="####-####-####-####" maxLength={16} value={cardNumber} onChange={setNumberAndCompany} required/>
                                         </div>
                                         <div className="card-input">
                                             <label>Expiration Date:</label>
@@ -123,7 +154,7 @@ export default function CreditCards(){
                                         </div>
                                         <div className="card-input">
                                             <label>CVC:</label>
-                                            <input type="text" id="cvc-input" placeholder="..." minLength={3} maxLength={5} value={cvc} onChange={(e)=>setCvc(e.target.value)} required/>
+                                            <input type="text" id="cvc-input" placeholder="..." minLength={3} maxLength={4} value={cvc} onChange={(e)=>setCvc(e.target.value)} required/>
                                         </div>
                                         <div className="decision">
                                             <input type="submit" value="Save"/>
