@@ -3,6 +3,8 @@ import { Link } from "react-router-dom"
 import CountryInput from "../../components/CountryInput/CountryInput"
 import Header from "../../components/Header/Header"
 import "./Sign_up.css"
+import config from '../serverURL'
+const serverURL = config.serverAdress
 
 export default function Sign_up(){
 

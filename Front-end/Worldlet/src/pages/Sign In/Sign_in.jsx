@@ -1,7 +1,9 @@
+import { useState,useEffect } from "react"
 import { Link } from "react-router-dom"
 import Header from "../../components/Header/Header"
 import "./Sign_in.css"
-import { useState,useEffect } from "react"
+import config from '../serverURL'
+const serverURL = config.serverAdress
 
 export default function Sign_in(){
 

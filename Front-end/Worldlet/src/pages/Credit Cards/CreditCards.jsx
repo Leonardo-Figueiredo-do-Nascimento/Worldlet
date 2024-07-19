@@ -1,17 +1,41 @@
 import { useState,useEffect } from "react"
 import { Link,useParams } from "react-router-dom"
+import CreditCard from "../../components/Credit Card/CreditCard"
 import UserHeader from "../../components/UserHeader/UserHeader"
 import './CreditCards.css'
+import config from '../serverURL'
+const serverURL = config.serverAdress
 
 export default function CreditCards(){
     
     const [cardName,setCardName] = useState('')
     const [cardNumber,setCardNumber] = useState('')
-    const [cvv,setCvv] = useState('')
+    const [cvc,setCvc] = useState('')
     const [expDate, setExpDate] = useState('');
+    const [card,setCard] = useState({})
     const [cards,setCards] = useState([])
+    const [addCard,setAddCard] = useState(false)
     const {user_name} = useParams()
     
+    useEffect(()=>{
+        setCard(()=>
+            {
+                return {
+                    cardName: cardName,
+                    cardNumber: cardNumber,
+                    cardCVC: cvc,
+                    cardExpirationDate: expDate
+                }
+            }
+        )
+    },[cardName,cardNumber,cvc,expDate])
+
+    const registerCard = (e) => {
+        e.preventDefault();
+        console.log(card)
+        console.log(cards)
+        clear();
+    };
     const formatDate = (e) => {
         let inputValue = e.target.value.replace(/\D/g, ''); 
       if (inputValue.length <= 2) {
@@ -31,7 +55,7 @@ export default function CreditCards(){
     const clear = ()=>{
         setCardNumber('')
         setCardName('')
-        setCvv('')
+        setCvc('')
         setExpDate('')
     }
     return(
@@ -41,11 +65,50 @@ export default function CreditCards(){
                 <div className="overlay">
                     <Link to={`/account/${user_name}`} id="go-back"><img src="../../../public/Go back icon.png"/></Link>
                     {
-                        cards.length<1 ? (
+                        cards.length>0 ? (
+                            <div className="cards">
+                                <h2 id="cards-h2">Your credit cards</h2>
+                                <CreditCard
+                                    cardNumber={cards.cardNumber}
+                                    cardName={cards.cardName}
+                                    cardCVC={cards.cardCVC}
+                                    cardExpirationDate={cards.cardExpirationDate}
+                                />
+                                <button id="add-card" onClick={()=>setAddCard(!addCard)}>ADD NEW CARD</button>
+                                {
+                                    addCard==true ? (
+                                        <div className="card-form">
+                                            <form method="post" onSubmit={registerCard}>
+                                                <div className="card-input" id="card-name-input" >
+                                                    <label>Card Name:</label>
+                                                    <input type="text" id="name-input" placeholder="Card Name" value={cardName} onChange={(e)=>setCardName(e.target.value)} required/>
+                                                </div>
+                                                <div className="card-input">
+                                                    <label>Card Number:</label>
+                                                    <input type="text" id="number-input" placeholder="####-####-####-####" maxLength={20} value={cardNumber} onChange={(e)=>setCardNumber(e.target.value)} required/>
+                                                </div>
+                                                <div className="card-input">
+                                                    <label>Expiration Date:</label>
+                                                    <input type="text" id="date-input" placeholder="mm/yy" minLength={4} maxLength={5} value={expDate} onChange={formatDate} required/>
+                                                </div>
+                                                <div className="card-input">
+                                                    <label>CVC:</label>
+                                                    <input type="text" id="cvc-input" placeholder="..." minLength={3} maxLength={5} value={cvc} onChange={(e)=>setCvc(e.target.value)} required/>
+                                                </div>
+                                                <div className="decision">
+                                                    <input type="submit" value="Save"/>
+                                                    <input type="button" value="Clear" onClick={clear}/>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    ):(<></>)
+                                }
+                            </div>
+                        ) : (
                             <div className="first-card-div">
                                 <h2 id="first-card-h2">Add a card to start using the application</h2>
                                 <div className="card-form">
-                                    <form method="post">
+                                    <form method="post" onSubmit={registerCard}>
                                         <div className="card-input" id="card-name-input" >
                                             <label>Card Name:</label>
                                             <input type="text" id="name-input" placeholder="Card Name" value={cardName} onChange={(e)=>setCardName(e.target.value)} required/>
@@ -60,7 +123,7 @@ export default function CreditCards(){
                                         </div>
                                         <div className="card-input">
                                             <label>CVC:</label>
-                                            <input type="text" id="cvc-input" placeholder="..." minLength={3} maxLength={5} value={cvv} onChange={(e)=>setCvv(e.target.value)} required/>
+                                            <input type="text" id="cvc-input" placeholder="..." minLength={3} maxLength={5} value={cvc} onChange={(e)=>setCvc(e.target.value)} required/>
                                         </div>
                                         <div className="decision">
                                             <input type="submit" value="Save"/>
@@ -69,7 +132,7 @@ export default function CreditCards(){
                                     </form>
                                 </div>
                             </div>
-                        ) : <></>
+                        ) 
                     }
                 </div>
             </div>

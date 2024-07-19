@@ -11,12 +11,12 @@
     border-radius: 100%;
     position: absolute;
 }
-.first-card-div{
+.first-card-div,.cards{
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-#first-card-h2{
+#first-card-h2,#cards-h2{
     height: auto;
     width: auto;
     background: transparent;
@@ -27,6 +27,7 @@
     background-color: rgb(44, 41, 41);
     padding: 3%;
     border-radius: 20px;
+    margin-top: 5%;
 }
 form{
     display: grid;
@@ -98,5 +99,21 @@ form{
     color: red;
     background-color: white;
     border: 2px solid red;
+    transition: 0.5s;
+}
+#add-card{
+    height: 80px;
+    width: 20%;
+    color: white;
+    background-color: blue;
+    font-size: 2.5vh;
+    border-radius: 25px;
+    margin-top: 5%;
+    box-shadow: 0vh 0vh 1vh 0.1vh white;
+    cursor: pointer;
+}
+#add-card:hover{
+    background-color: white;
+    color: blue;
     transition: 0.5s;
 }

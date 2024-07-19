@@ -1,0 +1,11 @@
+.credit-card-container{
+    height: 15%;
+    width: 60%;
+    background-color: rgb(68, 73, 73);
+    border-radius: 25px;
+}
+p{
+    height: auto;
+    width: auto;
+    color: white;
+}
