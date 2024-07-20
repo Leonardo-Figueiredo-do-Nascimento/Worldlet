@@ -5,9 +5,10 @@
     border-radius: 25px;
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 2%;
+    padding: 1vw;
 }
 .user-credit-card-info{
     height: auto;
@@ -27,4 +28,9 @@
 .user-credit-card-info label{
     width: auto;
     color: white;
+}
+
+#company-card-logo{
+    height: 10vh;
+    width: 8vw;
 }

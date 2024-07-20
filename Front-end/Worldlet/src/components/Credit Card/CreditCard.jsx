@@ -3,15 +3,33 @@ import "./CreditCard.css"
 
 export default function CreditCard(props){
     const [companyCard,setCompanyCard] = useState("")
+    const [companyImg,setCompanyImg] = useState()
+
     useEffect(()=>{
         setCompanyCard(props.cardCompany)
     },[props.cardCompany])
+    useEffect(() => {
+        const cardImg = () => {
+            if (companyCard === "American Express") {
+                setCompanyImg("../../../public/card_companies/american-express-icon.png");
+            } else if (companyCard === "Visa") {
+                setCompanyImg("../../../public/card_companies/visa-icon.webp");
+            } else if (companyCard === "Discover") {
+                setCompanyImg("../../../public/card_companies/discover-icon.png");
+            } else if (companyCard === "Mastercard") {
+                setCompanyImg("../../../public/card_companies/mastercard-icon.png");
+            } else{
+                setCompanyImg(null)
+            }
+        };
+        cardImg();
+    }, [companyCard]);
+
     return(
         <div className="credit-card-container">
-            <div className='user-credit-card-info'>    
-                <label>Company:</label>
-                <p>{props.cardCompany}</p>
-            </div>
+            {
+                companyImg ? (<img src={companyImg} id='company-card-logo' />) : (<></>)
+            }  
             <div className='user-credit-card-info'>    
                 <label>Number:</label>
                 <p>{props.cardNumber}</p>

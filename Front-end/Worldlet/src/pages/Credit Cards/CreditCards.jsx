@@ -60,6 +60,8 @@ export default function CreditCards(){
             setCompany("Visa")
         }else if(inputValue.slice(0, 2) === "34" || inputValue.slice(0, 2) === "37"){
             setCompany("American Express")
+        } else{
+            setCompany("Unidentified Company")
         }
     }
 
@@ -86,7 +88,7 @@ export default function CreditCards(){
         setExpDate('')
     }
     return(
-        <div>
+        <>
             <UserHeader/>
             <div className="user-cards-container">
                 <div className="overlay">
@@ -167,6 +169,6 @@ export default function CreditCards(){
                     }
                 </div>
             </div>
-        </div>
+        </>
     )
 }
