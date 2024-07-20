@@ -47,6 +47,13 @@
     flex-direction: column;
     align-items: center;
 }
+.card-unit{
+    height: auto;
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 #first-card-h2,#cards-h2{
     height: auto;
     width: auto;
@@ -140,9 +147,15 @@ form{
     border: 2px solid red;
     transition: 0.5s;
 }
+.card-actions{
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
 #add-card{
     height: 10vh;
-    width: 15%;
+    width: 50%;
     color: white;
     background-color: blue;
     font-size: 2.5vh;
@@ -157,4 +170,39 @@ form{
     background-color: white;
     color: blue;
     transition: 0.5s;
+}
+#remove-card{
+    height: 10vh;
+    width: 50%;
+    color: white;
+    background-color: red;
+    font-size: 2.5vh;
+    border-radius: 25px;
+    margin-top: 2%;
+    margin-left: 5%;
+    margin-bottom: 2%;
+    box-shadow: 0vh 0vh 1vh 0.1vh white;
+    cursor: pointer;
+    padding: 1vw;
+}
+#remove-card:hover{
+    background-color: white;
+    color: red;
+    transition: 0.5s;
+}
+#delete-card{
+    height: 10vh;
+    width: 5vw;
+    margin-left: 2vw;
+    background-color: red;
+    padding: 1vh;
+    border-radius: 10px;
+    border: 0.5vh solid white;
+    cursor: pointer;
+}
+#delete-card:hover{
+    
+    background-color: black;
+    padding: 1vh;
+    border-radius: 10px;
 }
