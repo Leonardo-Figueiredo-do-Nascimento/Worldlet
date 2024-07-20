@@ -33,12 +33,19 @@
     flex-direction: column;
     align-items: center;
 }
+.cards-content{
+    height: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    overflow:auto;
+}
 .cards{
     height: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    overflow-y: auto;
 }
 #first-card-h2,#cards-h2{
     height: auto;
@@ -134,16 +141,17 @@ form{
     transition: 0.5s;
 }
 #add-card{
-    height: 80px;
-    width: 20%;
+    height: 10vh;
+    width: 15%;
     color: white;
     background-color: blue;
     font-size: 2.5vh;
     border-radius: 25px;
     margin-top: 2%;
-    margin-bottom: 3%;
+    margin-bottom: 2%;
     box-shadow: 0vh 0vh 1vh 0.1vh white;
     cursor: pointer;
+    padding: 1vw;
 }
 #add-card:hover{
     background-color: white;

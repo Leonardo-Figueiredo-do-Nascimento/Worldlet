@@ -45,6 +45,7 @@ export default function CreditCards(){
     const registerCard = (e) => {
         e.preventDefault();
         setRegister(true)
+        setAddCard(false)
         console.log(card)
         console.log(cards)
         clear();
@@ -95,8 +96,9 @@ export default function CreditCards(){
                     <Link to={`/account/${user_name}`} id="go-back"><img src="../../../public/Go back icon.png"/></Link>
                     {
                         cards.length>0 ? (
-                            <div className="cards">
+                            <div className="cards-content">
                                 <h2 id="cards-h2">Your credit cards</h2>
+                                <div className="cards">
                                 {cards.map((card, index) => (
                                     <CreditCard
                                         key={index}
@@ -106,7 +108,7 @@ export default function CreditCards(){
                                         cardCVC={card.cardCVC}
                                         cardExpirationDate={card.cardExpirationDate}
                                     />
-                                ))}
+                                ))} </div>
                                 <button id="add-card" onClick={()=>setAddCard(!addCard)}>ADD NEW CARD</button>
                                 {
                                     addCard==true ? (
