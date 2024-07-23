@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*")
 @RequestMapping("/{user_name}/cards")
 public class CreditCardController {
     @Autowired
