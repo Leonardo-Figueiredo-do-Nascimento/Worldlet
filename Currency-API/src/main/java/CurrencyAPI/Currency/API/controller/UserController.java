@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/user")
 public class UserController {
 
@@ -24,7 +25,7 @@ public class UserController {
     @PostMapping("/signup")
     public ResponseEntity<?> saveUser(@RequestBody User user){
         if(userService.getUserByName(user.getUserName()).isPresent()){
-            return ResponseEntity.badRequest().body("Username already exists");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Username already exists");
         }
         return ResponseEntity.ok(userService.createUser(user));
     }

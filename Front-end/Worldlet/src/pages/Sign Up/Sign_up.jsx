@@ -18,15 +18,13 @@ export default function Sign_up(){
     //Setting User data
     useEffect(()=>{
         setData(()=>{
-            return {
-                user: {
+            return {   
                     userName: name,
                     email: email,
                     country: country,
                     password: password
                 }
-            }
-        })
+            })
     },[name,email,country,password])
 
     const handleCountrySelect = (selectedCountry) => {
@@ -49,14 +47,18 @@ export default function Sign_up(){
 
                 const responseData = response.data
                 
-                if (responseStatus === 201) { 
+                if (response.status === 200) { 
                     console.log('User created:', responseData);
                     window.location.href = `/account/${responseData.userName}`
                 } else {
                     console.log('Register error:', responseData);
                 }
             } catch (error) {
-                console.log("Error: ",error)
+                if(error.response.status === 409){
+                    alert("User already exist")
+                } else{
+                    console.log("Error: ",error)
+                } 
             }
         } 
     }
