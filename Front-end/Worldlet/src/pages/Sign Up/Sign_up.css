@@ -53,6 +53,11 @@ label{
     color: white;
     cursor: pointer;
 }
+.signup-form input[type="submit"]:active{
+    background-color: white;
+    color: rgba(69, 96, 252, 0.952);
+    transition: 0.1s;
+}
 .signup-form p{
     height: auto;
     width: auto;

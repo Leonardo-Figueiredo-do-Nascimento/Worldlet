@@ -52,6 +52,11 @@
     background-color: rgba(69, 96, 252, 0.952);
     color: white;
 }
+.login-form input[type="submit"]:active{
+    background-color: white;
+    color: rgba(69, 96, 252, 0.952);
+    transition: 0.1s;
+}
 .login-form p{
     height: auto;
     width: auto;

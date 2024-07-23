@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
+import { json, Link } from "react-router-dom"
+import axios from "axios"
 import CountryInput from "../../components/CountryInput/CountryInput"
 import Header from "../../components/Header/Header"
 import "./Sign_up.css"
@@ -12,8 +13,6 @@ export default function Sign_up(){
     const [email,setEmail] = useState('')
     const [country,setCountry] = useState('')
     const [password,setPassword] = useState('')
-    const [countryInfo,setCountryInfo] = useState([])
-    const [defaultWallet,setDefaultWallet] = useState({})
     const [data,setData] = useState({})
 
     //Setting User data
@@ -30,32 +29,6 @@ export default function Sign_up(){
         })
     },[name,email,country,password])
 
-    //Getting selected country informations
-    useEffect(() => {
-        if(country){
-            fetch(`https://restcountries.com/v3.1/name/${country}`)
-                .then(response => response.json())
-                .then(data => setCountryInfo(data));
-        }
-        
-    }, [country]);
-
-    //Setting default wallet information
-    useEffect(()=>{
-        if (countryInfo.length > 0 && countryInfo[0].currencies) {
-            const currencyKey = Object.keys(countryInfo[0].currencies)[0];
-            setDefaultWallet(() => ({
-                wallet: {
-                    currency: countryInfo[0].currencies[currencyKey].name,
-                    currencySymbol: countryInfo[0].currencies[currencyKey].symbol,
-                    isoCode: currencyKey,
-                    amount: 0.0,
-                    user: data.user
-                }
-            }));
-        }
-    },[countryInfo,data])
-
     const handleCountrySelect = (selectedCountry) => {
         setCountry(selectedCountry);
     };
@@ -65,12 +38,26 @@ export default function Sign_up(){
         if(name != '' && email != '' && password != '' && country != ''){
 
             const userData = JSON.stringify(data)
-
             console.log(userData)
-            
-            const walletData = JSON.stringify(defaultWallet)
 
-            console.log(walletData)
+            try {
+                const response = await axios.post(`${serverURL}/user/signup`,userData, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })    
+
+                const responseData = response.data
+                
+                if (responseStatus === 201) { 
+                    console.log('User created:', responseData);
+                    window.location.href = `/account/${responseData.userName}`
+                } else {
+                    console.log('Register error:', responseData);
+                }
+            } catch (error) {
+                console.log("Error: ",error)
+            }
         } 
     }
 
