@@ -39,4 +39,8 @@ public class WalletController {
     public void deleteWallet(@RequestBody Wallet wallet){
         deleteWallet(wallet);
     }
+    @PutMapping("/self-deposit-wallet/{amount}")
+    public void selfDepositWallet(@RequestBody Wallet wallet,@PathVariable("amount") float amount){
+        walletService.selfDeposit(wallet,amount);
+    }
 }

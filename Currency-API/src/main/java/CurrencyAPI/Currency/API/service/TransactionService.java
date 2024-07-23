@@ -1,5 +1,6 @@
 package CurrencyAPI.Currency.API.service;
 
+import CurrencyAPI.Currency.API.model.CreditCard;
 import CurrencyAPI.Currency.API.model.Transaction;
 import CurrencyAPI.Currency.API.model.User;
 import CurrencyAPI.Currency.API.repository.TransactionRepository;
@@ -15,8 +16,8 @@ public class TransactionService {
     @Autowired
     private TransactionRepository repository;
 
-    public void createTransaction(User sender,User recipient,String currency, String operation, float opAmount){
-        Transaction transaction = new Transaction(operation,new Date(),opAmount,currency,sender,recipient);
+    public void createTransaction(User sender, User recipient, String currency, String operation, float opAmount, CreditCard senderCard){
+        Transaction transaction = new Transaction(operation,new Date(),opAmount,currency,sender,recipient,senderCard);
         repository.save(transaction);
     }
     public void createTransaction(Transaction transaction){

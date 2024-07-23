@@ -15,7 +15,7 @@ public class CreditCard {
     @Column(length = 30,nullable = false)
     private String cardName;
     @Column(length = 30,nullable = false)
-    private String cardCompanie;
+    private String cardCompany;
     @Column(length = 5,nullable = false)
     private String cardCVC;
     @Temporal(TemporalType.TIMESTAMP)
@@ -23,15 +23,15 @@ public class CreditCard {
     private Date cardExpirationDate;
     @ManyToOne
     @JoinColumn(name="id_user",nullable = false)
-    private User userCard;
-
+    private User cardUser;
+    public CreditCard() {}
     public CreditCard(String cardNumber, String cardName, String cardCompanie, String cardCVC, Date cardExpirationDate, User userCard) {
         this.cardNumber = cardNumber;
         this.cardName = cardName;
-        this.cardCompanie = cardCompanie;
+        this.cardCompany = cardCompanie;
         this.cardCVC = cardCVC;
         this.cardExpirationDate = cardExpirationDate;
-        this.userCard = userCard;
+        this.cardUser = userCard;
     }
 
     public int getCardId() {
@@ -58,12 +58,12 @@ public class CreditCard {
         this.cardName = cardName;
     }
 
-    public String getCardCompanie() {
-        return cardCompanie;
+    public String getCardCompany() {
+        return cardCompany;
     }
 
-    public void setCardCompanie(String cardCompanie) {
-        this.cardCompanie = cardCompanie;
+    public void setCardCompany(String cardCompany) {
+        this.cardCompany = cardCompany;
     }
 
     public String getCardCVC() {
@@ -82,11 +82,11 @@ public class CreditCard {
         this.cardExpirationDate = cardExpirationDate;
     }
 
-    public User getUserCard() {
-        return userCard;
+    public User getCardUser() {
+        return cardUser;
     }
 
-    public void setUserCard(User userCard) {
-        this.userCard = userCard;
+    public void setCardUser(User cardUser) {
+        this.cardUser = cardUser;
     }
 }

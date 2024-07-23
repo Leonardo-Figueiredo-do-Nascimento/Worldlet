@@ -16,12 +16,6 @@ public class TransactionController {
     private TransactionService transactionService;
     @Autowired
     private UserService userService;
-
-    @PostMapping
-    public void saveTransaction(@RequestBody Transaction transaction){
-        transactionService.createTransaction(transaction);
-    }
-
     @GetMapping
     public List<Transaction> getAllTransactions(@PathVariable("user_name") String userName){
         return transactionService.getUserTransactions(userService.getUserByName(userName));
