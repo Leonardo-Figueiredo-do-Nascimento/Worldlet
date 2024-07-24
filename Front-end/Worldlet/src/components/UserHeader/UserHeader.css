@@ -78,8 +78,8 @@ a{
 }
 
 .logout img{
-    height: 42px;
-    width: 42px;
+    height: 6vh;
+    width: 6vh;
     border-radius: 100px;
     margin-right: 10px;
     border: 2px solid black;

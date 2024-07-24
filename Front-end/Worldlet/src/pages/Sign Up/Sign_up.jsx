@@ -44,9 +44,7 @@ export default function Sign_up(){
                         'Content-Type': 'application/json',
                     }
                 })    
-
                 const responseData = response.data
-                
                 if (response.status === 200) { 
                     console.log('User created:', responseData);
                     window.location.href = `/account/${responseData.userName}`

@@ -1,6 +1,7 @@
 import { useState,useEffect } from "react"
 import { Link } from "react-router-dom"
 import Header from "../../components/Header/Header"
+import axios from "axios"
 import "./Sign_in.css"
 import config from '../serverURL'
 const serverURL = config.serverAdress
@@ -14,22 +15,41 @@ export default function Sign_in(){
     useEffect(()=>{
         setLoginData(()=>{
             return {
-                user:{
                     email: email,
                     password: password
                 }
-            }
-        })
+            })
     },[email,password])
 
     const login = async (e)=>{
         e.preventDefault();
         if(email != '' && password != ''){
-
             const userData = JSON.stringify(loginData)
-
             console.log(userData)
-
+            try {
+                const response = await axios.post(`${serverURL}/user/login`,userData, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })    
+                const responseData = response.data
+                if (response.status === 200) { 
+                    console.log('Login successful:', responseData);
+                    window.location.href = `/account/${responseData.user.userName}`
+                } else {
+                    console.log('Register error:', responseData);
+                }
+            } catch (error) {
+                if (error.response) {
+                    if (error.response.status === 401) {
+                        alert("Invalid username or password");
+                    } else {
+                        console.log("Error: ", error.response.data);
+                    }
+                } else{
+                    console.log("Error: ",error)
+                } 
+            }
         } 
     }
 
