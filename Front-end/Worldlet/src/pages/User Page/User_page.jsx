@@ -1,9 +1,10 @@
+import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
 import UserHeader from "../../components/UserHeader/UserHeader"
+import CurrencyCodeInput from "../../components/CurrencyCodeInput/CurrencyCodeInput"
+import axios from "axios"
 import './User_page.css'
 import config from '../serverURL'
-import { useEffect, useState } from "react"
-import axios from "axios"
-import { useParams } from "react-router-dom"
 const serverURL = config.serverAdress
 
 export default function User_Page(){
@@ -13,12 +14,13 @@ export default function User_Page(){
     const [walletCurrencySymbol,setWalletCurrencySymbol] = useState()
     const [walletIsoCode,setWalletIsoCode] = useState()
     const [walletAmount,setWalletAmount] = useState()
-    const [walletCard,setWalletCard] = useState()
+    const [walletCard,setWalletCard] = useState("")
     const [wallets,setWallets] = useState()
-    const [choice,setChoice] = useState("")
     const [addWallet,setAddWallet] = useState(false)
+    const [currencyData,setCurrencyData] = useState()
     const {user_name} = useParams()
 
+    //useEffect to get user wallets
     useEffect(()=>{
         async function getData(){
             try {
@@ -31,13 +33,46 @@ export default function User_Page(){
         getData()
     },[])
 
-    useEffect(()=>{
-        setWallet(()=>{
-            return{
-                choice: choice
-            }
-        })
-    },[choice])
+    //useEffect to get currency info
+    useEffect(() => {
+        if (walletIsoCode) {
+            fetch(`https://restcountries.com/v3.1/currency/${walletIsoCode}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const currency = Object.values(data[0].currencies)[0];
+                    setCurrencyData(currency);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
+    }, [walletIsoCode]);
+
+    //useEffect to attribute currency info into states
+    useEffect(() => {
+        if (currencyData) {
+            setWalletCurrency(currencyData.name);
+            setWalletCurrencySymbol(currencyData.symbol);
+        }
+    }, [currencyData]);
+    //useEffect to create new wallet
+    useEffect(() => {
+        if (walletCurrency && walletCurrencySymbol && walletIsoCode && walletCard) {
+            setWallet({
+                isoCode: walletIsoCode,
+                currencySymbol: walletCurrencySymbol,
+                currency: walletCurrency,
+                walletCard: walletCard,
+                walletAmount: 0.0
+            });
+        }
+    }, [walletCurrency, walletCurrencySymbol, walletIsoCode, walletCard]);
+
 
     const createWallet = (e) =>{
         e.preventDefault()
@@ -54,17 +89,19 @@ export default function User_Page(){
             <div className="add-wallet-div">
                 <button onClick={()=>setAddWallet(false)} id="close-button"><img src="../../public/Sem.png"/></button>
                 <form className="wallet-form" onSubmit={createWallet}> 
-                    <h3 id="add-wallet-h3">Sign Up</h3>
-                    <label>Full Name:</label>
-                    <label>E-mail:</label>
-                    <label>Country:</label>
-                    <label>Password:</label>
-                    <select className="card-select" value={choice} onChange={(e)=> setChoice(e.target.value)}>
-                        <option value="" disabled hidden>Choose your card ending with</option>
-                        {options.map(option=>(
-                            <option key={option.value} value={option.label}>{option.label}</option>
-                        ))}
-                    </select>
+                    <h3 id="add-wallet-h3">New Wallet</h3>
+                    {walletCurrencySymbol ? (<h3 id="new-currency-h3">{walletCurrencySymbol}</h3>):(<></>)}
+                    <div className="wallet-inputs">
+                        <label>Currency:</label>
+                        <CurrencyCodeInput onCurrencySelect={(selectedCurrency)=> setWalletIsoCode(selectedCurrency)}/>
+                        <label>Credit Card:</label>
+                        <select className="card-select" value={walletCard} onChange={(e)=> setWalletCard(e.target.value)}>
+                            <option value="" disabled hidden>Choose your card ending with</option>
+                            {options.map(option=>(
+                                <option key={option.value} value={option.label}>{option.label}</option>
+                            ))}
+                        </select>
+                    </div>
                     <input type="submit" value="Submit"/>
                 </form>
             </div>
