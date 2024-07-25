@@ -4,9 +4,89 @@
     background-image: url('../../../public/User World 3.jpg');
     background-size: cover;
 }
-.overlay {
+.user-overlay {
     background: rgba(0, 0, 0, 0.9);
     display: flex;
     justify-content: center;
+    align-items: flex-start;
+}
+
+.user-actions{
+    height: 15%;
+    width: 60%;
+    background-color: rgba(2, 3, 22, 0.884);
+    border-radius: 100px;
+    box-shadow: 0 0 2vh 0 white;
+    display: flex;
+    justify-content: space-evenly;
     align-items: center;
-  }
+    margin-top: 5%;
+    
+}
+
+.user-actions button{
+    height: 50%;
+    width: auto;
+    font-size: 2vh;
+    padding: 1vh;
+    border-radius: 10vh;
+    cursor: pointer;
+    color: white;
+    border: 0.4vh solid white;
+}
+.wallets{
+    height: auto;
+    width: auto;
+}
+#add-wallet-button{background-color: rgb(3, 95, 3);}
+#convert-currency-button, #money-transfer-button{background-color: rgb(185, 185, 6);}
+#delete-wallet-button{background-color: rgb(116, 8, 8);}
+
+#add-wallet-button:hover,#convert-currency-button:hover, #money-transfer-button:hover,#delete-wallet-button:hover{background-color: white;color: black;border: 0.4vh solid black;transition: 0.5s;}
+#add-wallet-button:active,#convert-currency-button:active, #money-transfer-button:active,#delete-wallet-button:active{background-color: black;color: white;border: 0.4vh solid black;transition: 0.2s;}
+
+.add-wallet-div{
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.801);
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.wallet-form{
+    height: 50%;
+    width: 30%;
+    color: white;
+    background-color: rgb(34, 53, 73);
+    display: flex;
+    border-radius: 20px;
+    border: 0.5vh solid white;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#close-button{
+    height: 6vh;
+    width: 6vh;
+    margin-left: 33%;
+    background-color: transparent;
+    border-radius: 100px;
+    cursor: pointer;
+}
+#add-wallet-h3{
+    height: auto;
+    width: auto;
+    font-size: 5vh;
+    margin-bottom: 2%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+.card-select{
+    width: auto;
+    height: auto;
+}
+.wallet-form input[type="submit"]{
+    height: auto;
+    width: auto;
+}
