@@ -152,6 +152,7 @@ form{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    margin-bottom: 2%;
 }
 #add-card{
     height: 10vh;

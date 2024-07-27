@@ -76,10 +76,6 @@ export default function CreditCards(){
 
     const registerCard = async (e) => {
         e.preventDefault();
-        // setRegister(true)
-        // setAddCard(false)
-        // console.log(card)
-        // console.log(cards)
         if(cardName != '' && cardNumber != '' && cvc != '' && expDate != ''){
 
             const cardData = JSON.stringify(card)
@@ -105,11 +101,25 @@ export default function CreditCards(){
             }
         }
     };
-    const deleteCard = (e,cardNumber)=>{
+    const deleteCard = async (e,cardNumber)=>{
         e.preventDefault()
-        setCards(prevCards => prevCards.filter(card => card.cardNumber !== cardNumber));
-        setRemoveCard(false)
+        const exclude = confirm("Are you sure you want to delete your card?")
+        if(exclude){
+            try {
+                const response = await axios.delete(`${serverURL}/${user_name}/cards/delete-card/${cardNumber}`);
+                const responseData = response.data;
+                if (response.status === 200) { 
+                    console.log('Credit Card Deleted:', responseData);
+                    window.location.reload();
+                } else {
+                    console.log('Delete error:', responseData);
+                }
+            } catch (error) {
+                console.log("Error: ", error);
+            } 
+        }
     }
+
     const setNumberAndCompany = (e)=>{
         let inputValue = e.target.value.replace(/\D/g, ''); 
         setCardNumber(inputValue)
@@ -160,22 +170,6 @@ export default function CreditCards(){
                         cards.length>0 ? (
                             <div className="cards-content">
                                 <h2 id="cards-h2">Your credit cards</h2>
-                                <div className="cards">
-                                    {cards.map((card, index) => (
-                                        <div className="card-unit">
-                                            <CreditCard
-                                                key={index}
-                                                cardCompany={card.cardCompany}
-                                                cardNumber={card.cardNumber}
-                                                cardName={card.cardName}
-                                                cardCVC={card.cardCVC}
-                                                expirationDate={card.expirationDate}
-                                            />
-                                            {
-                                                removeCard==true?(<button id="delete-card" onClick={(e)=>deleteCard(e,card.cardNumber)}><img src="../../../public/trash-icon.png" alt="" /></button>):(<></>)
-                                            }
-                                        </div>
-                                    ))} </div>
                                 <div className="card-actions">
                                     <button id="add-card" onClick={()=>{setAddCard(!addCard);setRemoveCard(false)}}>ADD NEW CARD</button>
                                     <button id="remove-card" onClick={()=>{setRemoveCard(!removeCard);setAddCard(false)}}>REMOVE CARD</button>
@@ -208,6 +202,23 @@ export default function CreditCards(){
                                         </div>
                                     ):(<></>)
                                 }
+                                <div className="cards">
+                                    {cards.map((card, index) => (
+                                        <div className="card-unit">
+                                            <CreditCard
+                                                key={index}
+                                                cardCompany={card.cardCompany}
+                                                cardNumber={card.cardNumber}
+                                                cardName={card.cardName}
+                                                cardCVC={card.cardCVC}
+                                                expirationDate={card.expirationDate}
+                                            />
+                                            {
+                                                removeCard==true?(<button id="delete-card" onClick={(e)=>deleteCard(e,card.cardNumber)}><img src="../../../public/trash-icon.png" alt="" /></button>):(<></>)
+                                            }
+                                        </div>
+                                    ))} </div>
+                                
                             </div>
                         ) : (
                             <div className="first-card-div">
