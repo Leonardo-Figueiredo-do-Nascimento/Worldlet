@@ -90,7 +90,7 @@
     justify-content: flex-start;
 }
 .card-select{
-    height: auto;
+    height: 25vh;
     width: auto;
 }
 .wallet-form input[type="submit"]{
@@ -103,11 +103,12 @@
     margin-top: 5%;
 }
 .wallet-form select,input{
-    height: auto;
+    height: 50px;
     width: auto;
     background-color: rgb(13, 21, 29);
     color: white;
     font-size: 2vh;
+    border-radius: 4px;
 }
 .wallet-form label{
     margin-top: 5%;
@@ -117,7 +118,7 @@
 #new-currency-h3{
     height: auto;
     width: auto;
-    font-size: 5vh;
+    font-size: 7vh;
     padding: 2vh;
     border-radius: 100%;
     background-color: rgb(13, 21, 29);

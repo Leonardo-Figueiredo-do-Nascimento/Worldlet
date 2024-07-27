@@ -16,10 +16,24 @@ export default function User_Page(){
     const [walletAmount,setWalletAmount] = useState()
     const [walletCard,setWalletCard] = useState("")
     const [wallets,setWallets] = useState()
+    const [cards,setCards] = useState()
     const [addWallet,setAddWallet] = useState(false)
     const [currencyData,setCurrencyData] = useState()
     const {user_name} = useParams()
 
+    //useEffect to get user credit cards
+    useEffect(()=>{
+        async function getData(){
+            try {
+                const response = await axios.get(`${serverURL}/${user_name}/cards`)
+                setCards(response.data)
+            } catch (error) {
+                console.log("Error: ",error)
+            }
+        }
+        getData()
+        console.log(cards)
+    },[])
     //useEffect to get user wallets
     useEffect(()=>{
         async function getData(){
@@ -80,11 +94,6 @@ export default function User_Page(){
     }
 
     const addWalletForm = () =>{
-        const options = [
-            {label:"**** 4175", value:1},
-            {label:"**** 5424", value:2},
-            {label:"**** 4545", value:3}
-        ]
         return(
             <div className="add-wallet-div">
                 <button onClick={()=>setAddWallet(false)} id="close-button"><img src="../../public/Sem.png"/></button>
@@ -97,8 +106,8 @@ export default function User_Page(){
                         <label>Credit Card:</label>
                         <select className="card-select" value={walletCard} onChange={(e)=> setWalletCard(e.target.value)}>
                             <option value="" disabled hidden>Choose your card ending with</option>
-                            {options.map(option=>(
-                                <option key={option.value} value={option.label}>{option.label}</option>
+                            {cards.map(card=>(
+                                <option key={card.cardId} value={card.cardNumber}>**** {card.cardNumber.slice(-4)}</option>
                             ))}
                         </select>
                     </div>
