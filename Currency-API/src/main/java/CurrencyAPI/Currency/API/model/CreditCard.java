@@ -24,6 +24,9 @@ public class CreditCard {
     @ManyToOne
     @JoinColumn(name="id_user",nullable = false)
     private User cardUser;
+
+    @Transient
+    private String expirationDate;
     public CreditCard() {}
     public CreditCard(String cardNumber, String cardName, String cardCompanie, String cardCVC, Date cardExpirationDate, User userCard) {
         this.cardNumber = cardNumber;
@@ -88,5 +91,13 @@ public class CreditCard {
 
     public void setCardUser(User cardUser) {
         this.cardUser = cardUser;
+    }
+
+    public String getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(String expirationDate) {
+        this.expirationDate = expirationDate;
     }
 }
