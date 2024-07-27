@@ -46,8 +46,8 @@ public class CreditCardController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while saving the card");
         }
     }
-    @DeleteMapping("/delete-card")
-    public void deleteCard(@RequestBody CreditCard card){
-        cardService.deleteCard(card);
+    @DeleteMapping("/delete-card/{cardNumber}")
+    public void deleteCard(@PathVariable("cardNumber") String cardNumber){
+        cardService.deleteCard(cardNumber);
     }
 }

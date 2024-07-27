@@ -3,6 +3,7 @@ package CurrencyAPI.Currency.API.service;
 import CurrencyAPI.Currency.API.model.CreditCard;
 import CurrencyAPI.Currency.API.model.User;
 import CurrencyAPI.Currency.API.repository.CreditCardRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +20,9 @@ public class CreditCardService {
     public CreditCard createCard(CreditCard card){
         return repository.save(card);
     }
-    public void deleteCard(CreditCard card){
-        repository.delete(card);
+    @Transactional
+    public void deleteCard(String cardNumber){
+        repository.deleteByCardNumber(cardNumber);
     }
     public List<CreditCard> getAllCards(Optional<User> user){
         return repository.findAllByCardUser(user);
