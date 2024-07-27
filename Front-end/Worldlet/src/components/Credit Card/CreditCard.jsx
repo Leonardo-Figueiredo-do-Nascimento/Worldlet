@@ -29,23 +29,25 @@ export default function CreditCard(props){
         <div className="credit-card-container">
             {
                 companyImg ? (<img src={companyImg} id='company-card-logo' />) : (<></>)
-            }  
-            <div className='user-credit-card-info'>    
-                <label>Number:</label>
-                <p>{props.cardNumber}</p>
-            </div>
-            <div className='user-credit-card-info'>
-                <label>Name:</label>
-                <p>{props.cardName}</p>
-            </div>
-            <div className='user-credit-card-info'>
-                <label>CVC:</label>
-                <p>{props.cardCVC}</p>
-            </div>
-            <div className='user-credit-card-info'>
-                <label>Expiration Date:</label>
-                <p>{props.cardExpirationDate}</p>
-            </div>
+            }
+            <div className="credit-card-data">
+                <div className='user-credit-card-info' id='credit-card-name'>    
+                    <label>Number:</label>
+                    <p>{props.cardNumber}</p>
+                </div>
+                <div className='user-credit-card-info'>
+                    <label>Name:</label>
+                    <p>{props.cardName}</p>
+                </div>
+                <div className='user-credit-card-info'>
+                    <label>CVC:</label>
+                    <p>{props.cardCVC}</p>
+                </div>
+                <div className='user-credit-card-info'>
+                    <label>Expiration Date:</label>
+                    <p>{props.expirationDate}</p>
+                </div>
+            </div>  
         </div>
     )
 }

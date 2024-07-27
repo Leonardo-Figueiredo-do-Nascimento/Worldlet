@@ -1,11 +1,11 @@
 .credit-card-container{
-    height: 15vh;
+    height: 20vh;
     width: 60vw;
     background-color: rgb(68, 73, 73);
     border-radius: 25px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
     margin-bottom: 2%;
     padding: 1vw;
@@ -15,22 +15,35 @@
     width: auto;
     display: flex;
     flex-direction: column;
+    margin-right: 10%;
 }
 .user-credit-card-info p{
     height: auto;
     width: auto;
     color: white;
     background-color: rgb(44, 43, 43);
-    font-size: 4vh;
+    font-size: 2vh;
     padding: 1vh;
     border-radius: 10px;
 }
-.user-credit-card-info label{
+.credit-card-data label{
     width: auto;
     color: white;
 }
-
+.credit-card-data{
+    height: auto;
+    width: 80%;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: 2fr;
+}
 #company-card-logo{
     height: 10vh;
     width: 8vw;
+}
+
+#credit-card-name{
+    grid-column: 1/-1;
+    width: auto;
+    margin-bottom: 1%;
 }
