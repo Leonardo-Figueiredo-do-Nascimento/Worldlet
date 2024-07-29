@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useParams,Link } from "react-router-dom"
 import UserHeader from "../../components/UserHeader/UserHeader"
 import CurrencyCodeInput from "../../components/CurrencyCodeInput/CurrencyCodeInput"
 import axios from "axios"
@@ -17,6 +17,7 @@ export default function User_Page(){
     const [walletCard,setWalletCard] = useState("")
     const [wallets,setWallets] = useState()
     const [cards,setCards] = useState()
+    const [hasCards,setHasCards] = useState()
     const [addWallet,setAddWallet] = useState(false)
     const [currencyData,setCurrencyData] = useState()
     const {user_name} = useParams()
@@ -27,13 +28,16 @@ export default function User_Page(){
             try {
                 const response = await axios.get(`${serverURL}/${user_name}/cards`)
                 setCards(response.data)
+                if(cards.length>0){
+                    setHasCards(true)
+                }
             } catch (error) {
                 console.log("Error: ",error)
             }
         }
         getData()
         console.log(cards)
-    },[])
+    },[cards])
     //useEffect to get user wallets
     useEffect(()=>{
         async function getData(){
@@ -103,15 +107,21 @@ export default function User_Page(){
                     <div className="wallet-inputs">
                         <label>Currency:</label>
                         <CurrencyCodeInput onCurrencySelect={(selectedCurrency)=> setWalletIsoCode(selectedCurrency)}/>
-                        <label>Credit Card:</label>
-                        <select className="card-select" value={walletCard} onChange={(e)=> setWalletCard(e.target.value)}>
-                            <option value="" disabled hidden>Choose your card ending with</option>
-                            {cards.map(card=>(
-                                <option key={card.cardId} value={card.cardNumber}>**** {card.cardNumber.slice(-4)}</option>
-                            ))}
-                        </select>
+                        {cards.length===0 ? (<>
+                            <h4 id="card-required-h4">You need a credit card to start</h4>
+                            <Link id='card-required-link' to={`/account/${user_name}/cards`}>Add your card</Link>
+                        </>):(<> 
+                                <label>Credit Card:</label>
+                                <select className="card-select" value={walletCard} onChange={(e)=> setWalletCard(e.target.value)}>
+                                    <option value="" disabled hidden>Choose your card ending with</option>
+                                    {cards.map(card=>(
+                                        <option key={card.cardId} value={card.cardNumber}>**** {card.cardNumber.slice(-4)}</option>
+                                    ))}
+                                </select>
+                            </>
+                        )}
                     </div>
-                    <input type="submit" value="Submit"/>
+                    {hasCards ? (<input type="submit" value="Submit"/>):(<></>)}
                 </form>
             </div>
         )
@@ -124,7 +134,7 @@ export default function User_Page(){
                 <div className="user-overlay">
                     <div className="user-actions">
                         <button id="add-wallet-button" onClick={()=>setAddWallet(true)}>Add new wallet</button>
-                        <button id="convert-currency-button">Convert currency</button>
+                        <button id="convert-currency-button" onClick={()=>console.log(cards)}>Convert currency</button>
                         <button id="money-transfer-button">Transfer money</button>
                         <button id="delete-wallet-button">Delete wallet</button>
                     </div>

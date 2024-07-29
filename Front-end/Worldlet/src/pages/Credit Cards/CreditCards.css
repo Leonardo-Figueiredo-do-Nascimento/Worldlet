@@ -148,6 +148,7 @@ form{
     transition: 0.5s;
 }
 .card-actions{
+    height: auto;
     width: auto;
     display: flex;
     flex-direction: row;

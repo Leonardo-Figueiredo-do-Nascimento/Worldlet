@@ -89,6 +89,25 @@
     flex-direction: column;
     justify-content: flex-start;
 }
+#card-required-h4{
+    height: auto;
+    width: auto;
+    font-size: 2.8vh;
+    margin-top: 5%;
+    text-decoration: underline;
+}
+#card-required-link{
+    width: auto;
+    height: auto;
+    font-size: 4vh;
+    background-color: rgb(8, 133, 216);
+    color: rgb(255, 235, 235);
+    padding: 4% 4% 4% 16%;
+    text-decoration: none;
+    border-radius: 100px;
+    margin-top: 5%;
+
+}
 .card-select{
     height: 25vh;
     width: auto;
