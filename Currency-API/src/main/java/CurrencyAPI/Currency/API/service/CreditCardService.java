@@ -27,4 +27,8 @@ public class CreditCardService {
     public List<CreditCard> getAllCards(Optional<User> user){
         return repository.findAllByCardUser(user);
     }
+    public Optional<CreditCard> getCreditCardByNumber(String cardNumber){
+        return repository.findAllByCardNumber(cardNumber);
+    }
+
 }

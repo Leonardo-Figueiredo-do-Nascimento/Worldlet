@@ -5,6 +5,8 @@ import CurrencyAPI.Currency.API.model.Wallet;
 import CurrencyAPI.Currency.API.service.UserService;
 import CurrencyAPI.Currency.API.service.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +25,11 @@ public class WalletController {
         return walletService.getUserWallets(userService.getUserByName(userName));
     }
     @PostMapping("/new-wallet")
-    public void saveWallet(@RequestBody Wallet wallet){
-        walletService.createWallet(wallet);
+    public ResponseEntity<?> saveWallet(@RequestBody Wallet wallet){
+        if(walletService.getWalletByIsoCode(wallet.getIsoCode()).isPresent()){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Currency already exists");
+        }
+        return ResponseEntity.ok(walletService.createWallet(wallet));
     }
 
     @PutMapping("/deposit-wallet/{amount}")

@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/{user_name}/cards")
@@ -33,6 +34,11 @@ public class CreditCardController {
             card.setExpirationDate(outputFormat.format(card.getCardExpirationDate()));
         }
         return cardList;
+    }
+    @GetMapping("/{cardNumber}")
+    public Optional<CreditCard> getCardByNumber(@PathVariable("cardNumber") String cardNumber){
+
+        return cardService.getCreditCardByNumber(cardNumber);
     }
     @PostMapping("/new-card")
     public ResponseEntity<String> saveCard(@RequestBody CreditCard card){

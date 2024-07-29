@@ -22,12 +22,16 @@ public class WalletService {
     public List<Wallet> getUserWallets(Optional<User> user){
         return walletRepository.findAllByUserWallet(user);
     }
-    public void createWallet(Wallet wallet){
-        walletRepository.save(wallet);
+
+    public Optional<Wallet> getWalletByIsoCode(String isoCode){
+        return walletRepository.findWalletByIsoCode(isoCode);
     }
-    public void createWallet(User user, String currency, float currencyAmount, String currencySymbol, String isoCode, CreditCard card){
+    public Wallet createWallet(Wallet wallet){
+        return walletRepository.save(wallet);
+    }
+    public Wallet createWallet(User user, String currency, float currencyAmount, String currencySymbol, String isoCode, CreditCard card){
         Wallet wallet = new Wallet(currency,currencyAmount,currencySymbol,isoCode,user,card);
-        walletRepository.save(wallet);
+        return walletRepository.save(wallet);
     }
     public void deleteWallet(Wallet wallet){
         walletRepository.delete(wallet);
