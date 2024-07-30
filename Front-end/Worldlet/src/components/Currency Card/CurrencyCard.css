@@ -1,4 +1,99 @@
 .currency-container{
-    height: 400px;
-    width: 200px;
+    height: auto;
+    width: auto;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-right: 2%;
+    z-index: 1;
+}
+.wallet-data{
+    height: 30vh;
+    width: 20vw;
+    background-color: rgba(2, 3, 22, 0.884);
+    border: 0.5vh solid white;
+    border-radius: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.currency-container p{
+    height: auto;
+    width: auto;
+    color: aliceblue;
+}
+#wallet-symbol-h3{
+    height: 14vh;
+    width: 14vh;
+    border-radius: 100%;
+    font-size: 7vh;
+    top: -25%;
+    background-color: rgb(5, 73, 5);
+    color: white;
+    border: 0.5vh solid white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+}
+.wallet-info{
+    height: auto;
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-top: 10%;
+}
+#wallet-currency,#wallet-amount{
+    font-size: 3vh;
+    padding: 0.5vh;
+    background-color: rgb(49, 47, 47);
+    border-radius: 10px;
+}
+#wallet-amount{
+    width: 60%;
+    text-align: end;
+}
+.wallet-actions{
+    height: auto;
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-top: 2%;
+}
+#deposit-button{
+    height: 7vh;
+    width: 30%;
+    color: white;
+    background-color: rgb(13, 128, 3);
+    font-size: 2vh;
+    border-radius: 25px;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    cursor: pointer;
+    padding: 1vh;
+}
+#deposit-button:hover{
+    background-color: white;
+    color: rgb(13, 128, 3);
+    transition: 0.5s;
+}
+#withdrawal-button{
+    height: 7vh;
+    width: 30%;
+    color: white;
+    background-color: red;
+    font-size: 2vh;
+    border-radius: 25px;
+    margin-top: 2%;
+    margin-left: 5%;
+    margin-bottom: 2%;
+    cursor: pointer;
+    padding: 1vh;
+}
+#withdrawal-button:hover{
+    background-color: white;
+    color: red;
+    transition: 0.5s;
 }

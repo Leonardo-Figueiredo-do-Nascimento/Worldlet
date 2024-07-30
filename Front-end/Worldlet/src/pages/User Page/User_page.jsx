@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useParams,Link } from "react-router-dom"
 import UserHeader from "../../components/UserHeader/UserHeader"
+import CurrencyCard from "../../components/Currency Card/CurrencyCard"
 import CurrencyCodeInput from "../../components/CurrencyCodeInput/CurrencyCodeInput"
 import axios from "axios"
 import './User_page.css'
@@ -9,47 +10,79 @@ const serverURL = config.serverAdress
 
 export default function User_Page(){
 
-    const [wallet,setWallet] = useState()
-    const [walletCurrency,setWalletCurrency] = useState()
-    const [walletCurrencySymbol,setWalletCurrencySymbol] = useState()
-    const [walletIsoCode,setWalletIsoCode] = useState()
-    const [walletAmount,setWalletAmount] = useState()
-    const [walletCard,setWalletCard] = useState("")
-    const [wallets,setWallets] = useState()
-    const [cards,setCards] = useState()
-    const [hasCards,setHasCards] = useState()
-    const [addWallet,setAddWallet] = useState(false)
-    const [currencyData,setCurrencyData] = useState()
-    const {user_name} = useParams()
+    const [wallet, setWallet] = useState(null)
+    const [walletCurrency, setWalletCurrency] = useState("")
+    const [walletCurrencySymbol, setWalletCurrencySymbol] = useState("")
+    const [walletIsoCode, setWalletIsoCode] = useState("")
+    const [walletAmount, setWalletAmount] = useState()
+    const [walletCard, setWalletCard] = useState(null)
+    const [walletCardNumber, setWalletCardNumber] = useState("")
+    const [walletUser, setWalletUser] = useState(null)
+    const [wallets, setWallets] = useState([])
+    const [cards, setCards] = useState([])
+    const [hasCards, setHasCards] = useState(false)
+    const [addWallet, setAddWallet] = useState(false)
+    const [currencyData, setCurrencyData] = useState(null)
+    const { user_name } = useParams()
 
-    //useEffect to get user credit cards
-    useEffect(()=>{
-        async function getData(){
+    //UseEffect to get user data
+    useEffect(() => {
+        async function getData() {
             try {
-                const response = await axios.get(`${serverURL}/${user_name}/cards`)
-                setCards(response.data)
-                if(cards.length>0){
-                    setHasCards(true)
-                }
+                const response = await axios.get(`${serverURL}/user/${user_name}`)
+                setWalletUser(response.data)
             } catch (error) {
-                console.log("Error: ",error)
+                console.log("Error: ", error)
             }
         }
         getData()
-        console.log(cards)
-    },[cards])
+    }, [user_name])
+
     //useEffect to get user wallets
-    useEffect(()=>{
-        async function getData(){
+    useEffect(() => {
+        async function getData() {
             try {
                 const response = await axios.get(`${serverURL}/${user_name}/wallets`)
                 setWallets(response.data)
             } catch (error) {
-                console.log("Error: ",error)
+                console.log("Error: ", error)
             }
         }
         getData()
-    },[])
+    }, [])
+
+    //useEffect to get user credit cards
+    useEffect(() => {
+        async function getData() {
+            try {
+                const response = await axios.get(`${serverURL}/${user_name}/cards`)
+                setCards(response.data)
+                if (response.data.length > 0) {
+                    setHasCards(true)
+                }
+            } catch (error) {
+                console.log("Error: ", error)
+            }
+        }
+        getData()
+        
+        console.log(cards)
+    }, [user_name])
+
+    //useEffect to set wallet credit card
+    useEffect(() => {
+        async function getData() {
+            if (walletCardNumber) {
+                try {
+                    const response = await axios.get(`${serverURL}/${user_name}/cards/${walletCardNumber}`)
+                    setWalletCard(response.data)
+                } catch (error) {
+                    console.log("Error: ", error)
+                }
+            }
+        }
+        getData()
+    }, [walletCardNumber, user_name])
 
     //useEffect to get currency info
     useEffect(() => {
@@ -78,25 +111,48 @@ export default function User_Page(){
             setWalletCurrencySymbol(currencyData.symbol);
         }
     }, [currencyData]);
-    //useEffect to create new wallet
+
+    //useEffect to set new wallet
     useEffect(() => {
-        if (walletCurrency && walletCurrencySymbol && walletIsoCode && walletCard) {
+        if (walletCurrency && walletCurrencySymbol && walletIsoCode && walletCard && walletUser) {
             setWallet({
                 isoCode: walletIsoCode,
                 currencySymbol: walletCurrencySymbol,
                 currency: walletCurrency,
                 walletCard: walletCard,
-                walletAmount: 0.0
+                amount: 0.0,
+                userWallet: walletUser
             });
         }
-    }, [walletCurrency, walletCurrencySymbol, walletIsoCode, walletCard]);
+    }, [walletCurrency, walletCurrencySymbol, walletIsoCode, walletCard, walletUser]);
 
-
-    const createWallet = (e) =>{
+    const createWallet = async (e) =>{
         e.preventDefault()
-        console.log(wallet)
-    }
+        if(walletIsoCode != "" && walletCard != ''){
 
+            const walletData = JSON.stringify(wallet)
+            try {
+                const response = await axios.post(`${serverURL}/${user_name}/wallets/new-wallet`,walletData, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })    
+                const responseData = response.data
+                if (response.status === 200) { 
+                    console.log('Credit Card created:', responseData);
+                    window.location.reload()
+                } else {
+                    console.log('Register error:', responseData);
+                }
+            } catch (error) {
+                if(error.response.status === 409){
+                    alert("Currency already exist")
+                } else{
+                    console.log("Error: ",error)
+                }
+            }
+        }
+    }    
     const addWalletForm = () =>{
         return(
             <div className="add-wallet-div">
@@ -112,7 +168,7 @@ export default function User_Page(){
                             <Link id='card-required-link' to={`/account/${user_name}/cards`}>Add your card</Link>
                         </>):(<> 
                                 <label>Credit Card:</label>
-                                <select className="card-select" value={walletCard} onChange={(e)=> setWalletCard(e.target.value)}>
+                                <select className="card-select" value={walletCardNumber} onChange={(e)=> setWalletCardNumber(e.target.value)}>
                                     <option value="" disabled hidden>Choose your card ending with</option>
                                     {cards.map(card=>(
                                         <option key={card.cardId} value={card.cardNumber}>**** {card.cardNumber.slice(-4)}</option>
@@ -141,7 +197,9 @@ export default function User_Page(){
                     {addWallet ? addWalletForm():(<></>)}
                     <div className="wallets">
                         {
-
+                            wallets.map((wallet,index)=>(
+                                <CurrencyCard key={index} currencySymbol={wallet.currencySymbol} currencyCode={wallet.isoCode} amount={wallet.amount}/>
+                            ))
                         }
                     </div>
                 </div>

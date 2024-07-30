@@ -3,12 +3,14 @@
     width: 100%;
     background-image: url('../../../public/User World 3.jpg');
     background-size: cover;
+    
 }
 .user-overlay {
     background: rgba(0, 0, 0, 0.9);
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;position: relative;
 }
 
 .user-actions{
@@ -34,10 +36,17 @@
     color: white;
     border: 0.4vh solid white;
 }
+
 .wallets{
     height: auto;
     width: auto;
+    
+    margin-top: 5%;
+    display: grid;
+    grid-template-columns: auto auto auto;
 }
+
+
 #add-wallet-button{background-color: rgb(3, 95, 3);}
 #convert-currency-button, #money-transfer-button{background-color: rgb(6, 104, 185);}
 #delete-wallet-button{background-color: rgb(116, 8, 8);}
@@ -54,6 +63,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    z-index: 2;
 }
 .wallet-form{
     height: 70%;
