@@ -14,7 +14,6 @@ export default function User_Page(){
     const [walletCurrency, setWalletCurrency] = useState("")
     const [walletCurrencySymbol, setWalletCurrencySymbol] = useState("")
     const [walletIsoCode, setWalletIsoCode] = useState("")
-    const [walletAmount, setWalletAmount] = useState()
     const [walletCard, setWalletCard] = useState(null)
     const [walletCardNumber, setWalletCardNumber] = useState("")
     const [walletUser, setWalletUser] = useState(null)
@@ -22,6 +21,8 @@ export default function User_Page(){
     const [cards, setCards] = useState([])
     const [hasCards, setHasCards] = useState(false)
     const [addWallet, setAddWallet] = useState(false)
+    const [removeWallet, setRemoveWallet] = useState(false)
+    const [walletDelete,setWalletDelete] = useState("")
     const [currencyData, setCurrencyData] = useState(null)
     const { user_name } = useParams()
 
@@ -139,7 +140,7 @@ export default function User_Page(){
                 })    
                 const responseData = response.data
                 if (response.status === 200) { 
-                    console.log('Credit Card created:', responseData);
+                    console.log('Wallet created:', responseData);
                     window.location.reload()
                 } else {
                     console.log('Register error:', responseData);
@@ -151,6 +152,21 @@ export default function User_Page(){
                     console.log("Error: ",error)
                 }
             }
+        }
+    }
+    const deleteWallet = async (e) =>{
+        e.preventDefault()
+        try {
+            const response = await axios.delete(`${serverURL}/${user_name}/wallets/delete-wallet/${walletDelete}`)    
+            const responseData = response.data
+            if (response.status === 200) { 
+                console.log('Wallet deleted:', responseData);
+                window.location.reload()
+            } else {
+                console.log('Register error:', responseData);
+            }
+        } catch (error){
+                console.log("Error: ",error)
         }
     }    
     const addWalletForm = () =>{
@@ -182,9 +198,31 @@ export default function User_Page(){
             </div>
         )
     }
+    const removeWalletForm = () =>{
+        const selected = wallets.find(wallet => wallet.isoCode === walletDelete)
+        return(
+            <div className="remove-wallet-div">
+                <button onClick={()=>setRemoveWallet(false)} id="close-button"><img src="../../public/Sem.png"/></button>
+                <form className="wallet-form" onSubmit={deleteWallet}> 
+                    <h3 id="add-wallet-h3">Remove Wallet</h3>
+                    <div className="wallet-inputs">
+                        <label>Currency:</label>
+                        <select className="card-select" value={walletDelete} onChange={(e)=> setWalletDelete(e.target.value)}>
+                            <option value="" disabled hidden>Choose the currency</option>
+                            {wallets.map(wallet=>(
+                                <option key={wallet.walletId} value={wallet.isoCode}>{wallet.currencySymbol}</option>
+                            ))}
+                        </select>
+                        {walletDelete!="" ? (<p id="return-investiment-p">The total amount of {selected.currencySymbol}{selected.amount} will return to your credit card account</p>):(<></>)}
+                    </div>
+                    <input type="submit" id="remove-wallet-submit" value="Delete Wallet"/>
+                </form>
+            </div>
+        )
+    }
 
     return(
-        <div>
+        <div className="user-page">
             <UserHeader/>
             <div className="user-container">
                 <div className="user-overlay">
@@ -192,9 +230,10 @@ export default function User_Page(){
                         <button id="add-wallet-button" onClick={()=>setAddWallet(true)}>Add new wallet</button>
                         <button id="convert-currency-button" onClick={()=>console.log(cards)}>Convert currency</button>
                         <button id="money-transfer-button">Transfer money</button>
-                        <button id="delete-wallet-button">Delete wallet</button>
+                        <button id="delete-wallet-button" onClick={()=>setRemoveWallet(true)}>Delete wallet</button>
                     </div>
                     {addWallet ? addWalletForm():(<></>)}
+                    {removeWallet ? removeWalletForm():(<></>)}
                     <div className="wallets">
                         {
                             wallets.map((wallet,index)=>(

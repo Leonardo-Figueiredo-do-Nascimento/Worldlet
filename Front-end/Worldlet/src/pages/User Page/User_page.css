@@ -1,8 +1,12 @@
-.user-container{
-    height: 100%;
-    width: 100%;
-    background-image: url('../../../public/User World 3.jpg');
+.user-page{
+    height: 100%;background-image: url('../../../public/User World 3.jpg');
     background-size: cover;
+    width: 100%;
+    overflow-y: auto;
+}
+.user-container{
+    height: auto;
+    width: 100%;
     
 }
 .user-overlay {
@@ -10,11 +14,13 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: center;position: relative;
+    align-items: center;
+    position: relative;
+    
 }
 
 .user-actions{
-    height: 15%;
+    height: 13vh;
     width: 60%;
     background-color: rgba(2, 3, 22, 0.884);
     border-radius: 100px;
@@ -23,7 +29,6 @@
     justify-content: space-evenly;
     align-items: center;
     margin-top: 5%;
-    
 }
 
 .user-actions button{
@@ -40,7 +45,6 @@
 .wallets{
     height: auto;
     width: auto;
-    
     margin-top: 5%;
     display: grid;
     grid-template-columns: auto auto auto;
@@ -49,15 +53,16 @@
 
 #add-wallet-button{background-color: rgb(3, 95, 3);}
 #convert-currency-button, #money-transfer-button{background-color: rgb(6, 104, 185);}
-#delete-wallet-button{background-color: rgb(116, 8, 8);}
+#delete-wallet-button,#remove-wallet-submit{background-color: rgb(116, 8, 8);}
 
 #add-wallet-button:hover,#convert-currency-button:hover, #money-transfer-button:hover,#delete-wallet-button:hover{background-color: white;color: black;border: 0.4vh solid black;transition: 0.5s;}
 #add-wallet-button:active,#convert-currency-button:active, #money-transfer-button:active,#delete-wallet-button:active{background-color: black;color: white;border: 0.4vh solid black;transition: 0.2s;}
 
-.add-wallet-div{
+.add-wallet-div,.remove-wallet-div{
     height: 100%;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.801);
+    padding-bottom: 25%;
     position: absolute;
     display: flex;
     justify-content: center;
@@ -66,7 +71,7 @@
     z-index: 2;
 }
 .wallet-form{
-    height: 70%;
+    height: 50%;
     width: 30%;
     color: white;
     background-color: rgb(34, 53, 73);
@@ -151,4 +156,9 @@
     padding: 2vh;
     border-radius: 100%;
     background-color: rgb(13, 21, 29);
+}
+#return-investiment-p{
+    max-width: 90%;
+    margin-top: 10%;
+    font-size: 2vh;
 }
