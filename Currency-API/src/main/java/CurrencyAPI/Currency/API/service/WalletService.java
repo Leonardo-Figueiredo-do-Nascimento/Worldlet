@@ -4,6 +4,7 @@ import CurrencyAPI.Currency.API.model.CreditCard;
 import CurrencyAPI.Currency.API.model.User;
 import CurrencyAPI.Currency.API.model.Wallet;
 import CurrencyAPI.Currency.API.repository.WalletRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,8 +34,9 @@ public class WalletService {
         Wallet wallet = new Wallet(currency,currencyAmount,currencySymbol,isoCode,user,card);
         return walletRepository.save(wallet);
     }
-    public void deleteWallet(Wallet wallet){
-        walletRepository.delete(wallet);
+    @Transactional
+    public void deleteWallet(String walletIsoCode){
+        walletRepository.deleteByIsoCode(walletIsoCode);
     }
     public void depositWalletAmount(int id, float amount){
         Wallet wallet = walletRepository.findById(id).orElse(null);

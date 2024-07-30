@@ -31,7 +31,10 @@ public class WalletController {
         }
         return ResponseEntity.ok(walletService.createWallet(wallet));
     }
-
+    @DeleteMapping("/delete-wallet/{isoCode}")
+    public void deleteWallet(@PathVariable("isoCode") String isoCode){
+        walletService.deleteWallet(isoCode);
+    }
     @PutMapping("/deposit-wallet/{amount}")
     public void depositWallet(@RequestBody Wallet wallet,@PathVariable("amount") float amount){
         walletService.depositWalletAmount(wallet.getWalletId(),amount);
@@ -39,10 +42,6 @@ public class WalletController {
     @PutMapping("/debit-wallet/{amount}")
     public void debitWallet(@RequestBody Wallet wallet,@PathVariable("amount") float amount){
         walletService.debitWalletAmount(wallet.getWalletId(),amount);
-    }
-    @DeleteMapping
-    public void deleteWallet(@RequestBody Wallet wallet){
-        deleteWallet(wallet);
     }
     @PutMapping("/self-deposit-wallet/{amount}")
     public void selfDepositWallet(@RequestBody Wallet wallet,@PathVariable("amount") float amount){
