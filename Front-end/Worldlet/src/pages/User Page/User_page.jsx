@@ -21,13 +21,20 @@ export default function User_Page(){
     const [wallets, setWallets] = useState([])
     const [cards, setCards] = useState([])
     const [hasCards, setHasCards] = useState(false)
-    const [addWallet, setAddWallet] = useState(false)
-    const [removeWallet, setRemoveWallet] = useState(false)
     const [walletDelete,setWalletDelete] = useState("")
     const [currencyData, setCurrencyData] = useState(null)
     const [selectedCurrency,setSelectedCurrency] = useState("")
+
+    const [convertWallet, setConvertWallet] = useState(null)
     const [amount,setAmount] = useState(0)
     const [limit,setLimit] = useState(0)
+    const [convertLimit,setConvertLimit] = useState(0)
+    const [targetCurrency,setTargetCurrency] = useState("")
+    const [currencyExists,setCurrencyExists] = useState(false)
+    const [addWallet, setAddWallet] = useState(false)
+    const [removeWallet, setRemoveWallet] = useState(false)
+    const [convertCurrency, setConvertCurrency] = useState(false)
+    const [transferMoney, setTransferMoney] = useState(false)
     const [addDeposit,setAddDeposit] = useState(false)
     const [addWithdrawal,setAddWithdrawal] = useState(false)
 
@@ -111,6 +118,25 @@ export default function User_Page(){
                 });
         }
     }, [walletIsoCode]);
+    //useEffect to get convert currency info
+    useEffect(() => {
+        if (targetCurrency) {
+            fetch(`https://restcountries.com/v3.1/currency/${targetCurrency}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const currency = Object.values(data[0].currencies)[0];
+                    setCurrencyData(currency);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
+    }, [targetCurrency]);
 
     //useEffect to attribute currency info into states
     useEffect(() => {
@@ -134,46 +160,30 @@ export default function User_Page(){
         }
     }, [walletCurrency, walletCurrencySymbol, walletIsoCode, walletCard, walletUser]);
 
-    const invest = async (e)=>{
-        if(amount>0){
-            try {
-                const response = await axios.put(`${serverURL}/${user_name}/wallets/self-deposit-wallet/${selectedCurrency}/${amount}`)    
-                const responseData = response.data
-                if (response.status === 200) { 
-                    console.log('Deposit successful:', responseData);
-                    window.location.reload()
-                } else {
-                    console.log('Register error:', responseData);
-                }
-            } catch (error){
-                console.log("Error: ",error)
-            }
-        }
-    }
-    const withdraw = async (e)=>{
-        if(amount>0 && amount<=limit){
-            try {
-                const response = await axios.put(`${serverURL}/${user_name}/wallets/withdraw-wallet/${selectedCurrency}/${amount}`)    
-                const responseData = response.data
-                if (response.status === 200) { 
-                    console.log('Withdrawall successful:', responseData);
-                    window.location.reload()
-                } else {
-                    console.log('Register error:', responseData);
-                }
-            } catch (error){
-                console.log("Error: ",error)
-            }
-        } else{
-            alert("Withdraw cannot be processed because the balance is insufficient")
-        }
-    }
+    //useEffect to set new wallet for convert
+    useEffect(() => {
+            setConvertWallet({
+                isoCode: targetCurrency,
+                currencySymbol: walletCurrencySymbol,
+                currency: walletCurrency,
+                walletCard: walletCard,
+                amount: amount,
+                userWallet: walletUser
+            })
+    }, [walletCurrency, walletCurrencySymbol, amount,targetCurrency, walletCard, walletUser]);
     
+    useEffect(() => {
+        const fontWallet = wallets.find(wallet => wallet.isoCode === walletIsoCode);
+        if (fontWallet) {
+            setConvertLimit(fontWallet.amount);
+            console.log("Font Wallet Amount:", fontWallet.amount);
+        }
+    }, [walletIsoCode, wallets]);
 
     const createWallet = async (e) =>{
         e.preventDefault()
         if(walletIsoCode != "" && walletCard != ''){
-
+            
             const walletData = JSON.stringify(wallet)
             try {
                 const response = await axios.post(`${serverURL}/${user_name}/wallets/new-wallet`,walletData, {
@@ -209,9 +219,108 @@ export default function User_Page(){
                 console.log('Register error:', responseData);
             }
         } catch (error){
-                console.log("Error: ",error)
+            console.log("Error: ",error)
         }
     }    
+    const invest = async (e)=>{
+        e.preventDefault()
+        if(amount>0){
+            try {
+                const response = await axios.put(`${serverURL}/${user_name}/wallets/self-deposit-wallet/${selectedCurrency}/${amount}`)    
+                const responseData = response.data
+                if (response.status === 200) { 
+                    console.log('Deposit successful:', responseData);
+                    window.location.reload()
+                } else {
+                    console.log('Register error:', responseData);
+                }
+            } catch (error){
+                console.log("Error: ",error)
+            }
+        }
+    }
+    const withdraw = async (e)=>{
+        e.preventDefault()
+        if(amount>0 && amount<=limit){
+            try {
+                const response = await axios.put(`${serverURL}/${user_name}/wallets/withdraw-wallet/${selectedCurrency}/${amount}`)    
+                const responseData = response.data
+                if (response.status === 200) { 
+                    console.log('Withdrawall successful:', responseData);
+                    window.location.reload()
+                } else {
+                    console.log('Register error:', responseData);
+                }
+            } catch (error){
+                console.log("Error: ",error)
+            }
+        } else{
+            alert("Withdraw cannot be processed because the balance is insufficient")
+        }
+    }
+    const convert = async (e) =>{
+        e.preventDefault()
+        if(walletIsoCode === targetCurrency){
+            alert("Select different currencies")
+        } else{
+            const fontWallet = wallets.find(wallet => wallet.isoCode === walletIsoCode);
+            const targetWallet = wallets.find(wallet => wallet.isoCode === targetCurrency);
+            ()=>setWalletCard(fontWallet.walletCard)
+            if(targetWallet){
+                if(amount>0 && amount<=convertLimit){
+                    try {
+                        const originalResponse = await axios.put(`${serverURL}/${user_name}/wallets/withdraw-wallet/${walletIsoCode}/${amount}`)    
+                        const originalResponseData = originalResponse.data
+                        if (originalResponse.status === 200) {
+                            const convertResponse = await axios.put(`${serverURL}/${user_name}/wallets/self-deposit-wallet/${targetCurrency}/${amount}`) 
+                            const convertData = convertResponse.data
+                            if (convertResponse.status === 200) {
+                                window.location.reload()
+                            } else {
+                                console.log('Update error:', convertData);
+                            }
+                            window.location.reload()
+                        } else {
+                            console.log('Register error:', originalResponseData);
+                        }
+                    } catch (error){
+                        console.log("Error: ",error)
+                    }
+                } else{
+                    alert("Currency conversion cannot be processed because the balance is insufficient")
+                }
+            } else {
+                
+                const walletData = JSON.stringify(convertWallet)
+                console.log(walletData)
+                try {
+                        const postResponse = await axios.post(`${serverURL}/${user_name}/wallets/new-wallet`,walletData, {
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                }
+                            })
+                            const postResponseData = postResponse.data
+                            if (postResponse.status === 200) {
+                                const putResponse = await axios.put(`${serverURL}/${user_name}/wallets/withdraw-wallet/${walletIsoCode}/${amount}`)
+                                const responseData = putResponse.data
+                                if (putResponse.status === 200) { 
+                                    console.log('Wallet updated:', postResponseData);
+                                    window.location.reload()
+                                } else {
+                                    console.log('Register error:', responseData);
+                                }
+                                console.log('Wallet Created:', postResponseData);
+                                window.location.reload()
+                            } else {
+                                console.log('Update error:', postResponseData);
+                            }
+                            
+                }catch (error){
+                        console.log("Error: ",error)
+                }
+            }
+        }
+    }
     const addWalletForm = () =>{
         return(
             <div className="add-wallet-div">
@@ -253,12 +362,53 @@ export default function User_Page(){
                         <select className="card-select" value={walletDelete} onChange={(e)=> setWalletDelete(e.target.value)}>
                             <option value="" disabled hidden>Choose the currency</option>
                             {wallets.map(wallet=>(
-                                <option key={wallet.walletId} value={wallet.isoCode}>{wallet.currencySymbol}</option>
+                                <option key={wallet.walletId} value={wallet.isoCode}>{wallet.isoCode}</option>
                             ))}
                         </select>
                         {walletDelete!="" ? (<p id="return-investiment-p">The total amount of {selected.currencySymbol}{selected.amount} will return to your credit card account</p>):(<></>)}
                     </div>
                     <input type="submit" id="remove-wallet-submit" value="Delete Wallet"/>
+                </form>
+            </div>
+        )
+    }
+    const convertForm = () =>{
+        return (
+            <div className="convert-div">
+                <button onClick={()=>setConvertCurrency(false)} id="close-button"><img src="../../public/Sem.png"/></button>
+                <form className="convert-form" onSubmit={convert}> 
+                    <h3 className="bank-ops-h3">Convert</h3>
+                    <div className="bank-inputs">
+                        <label>Actual Currency:</label>
+                        <select className="convert-inputs" value={walletIsoCode} onChange={(e)=> {setWalletIsoCode(e.target.value);setWalletCard(e.target.card)}}>
+                            <option value="" disabled hidden>Choose the currency</option>
+                            {wallets.map(wallet=>(
+                                <option key={wallet.walletId} value={wallet.isoCode} card={wallet.walletCard}>{wallet.isoCode}</option>
+                            ))}
+                        </select>
+                        <label>Convert Amount:</label>
+                        <MoneyInput value={amount} onChange={setAmount}/>
+                        <label>Target Currency:</label>
+                        <CurrencyCodeInput onCurrencySelect={(selectedCurrency)=> setTargetCurrency(selectedCurrency)}/>
+                    </div>
+                    <input type="submit" value="Convert"/>
+                </form>
+            </div>
+        )
+    }
+    const transferForm = () =>{
+        return (
+            <div className="transfer-div">
+                <button onClick={()=>setTransferMoney(false)} id="close-button"><img src="../../public/Sem.png"/></button>
+                <form className="transfer-form" onSubmit={invest}> 
+                    <h3 className="bank-ops-h3">Transfer</h3>
+                    <div className="bank-inputs">
+                        <label>Recipient User:</label>
+                        <input type="text" name="" id="" />
+                        <label>Transfer Amount:</label>
+                        <MoneyInput value={amount} onChange={setAmount}/>
+                    </div>
+                    <input type="submit" value="Transfer"/>
                 </form>
             </div>
         )
@@ -301,12 +451,14 @@ export default function User_Page(){
                 <div className="user-overlay">
                     <div className="user-actions">
                         <button id="add-wallet-button" onClick={()=>setAddWallet(true)}>Add new wallet</button>
-                        <button id="convert-currency-button" onClick={()=>console.log(cards)}>Convert currency</button>
-                        <button id="money-transfer-button">Transfer money</button>
+                        <button id="convert-currency-button" onClick={()=>setConvertCurrency(true)}>Convert currency</button>
+                        <button id="money-transfer-button" onClick={()=>setTransferMoney(true)}>Transfer money</button>
                         <button id="delete-wallet-button" onClick={()=>setRemoveWallet(true)}>Delete wallet</button>
                     </div>
                     {addWallet ? addWalletForm():(<></>)}
                     {removeWallet ? removeWalletForm():(<></>)}
+                    {convertCurrency ? convertForm():(<></>)}
+                    {transferMoney ? transferForm():(<></>)}
                     {addDeposit ? depositForm():(<></>)}
                     {addWithdrawal ? withdrawalForm():(<></>)}
                     <div className="wallets">

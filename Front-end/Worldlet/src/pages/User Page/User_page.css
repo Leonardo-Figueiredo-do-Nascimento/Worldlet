@@ -18,7 +18,6 @@
     position: relative;
     
 }
-
 .user-actions{
     height: 13vh;
     width: 60%;
@@ -30,7 +29,6 @@
     align-items: center;
     margin-top: 5%;
 }
-
 .user-actions button{
     height: 50%;
     width: auto;
@@ -41,7 +39,6 @@
     color: white;
     border: 0.4vh solid white;
 }
-
 .wallets{
     height: auto;
     width: auto;
@@ -49,8 +46,6 @@
     display: grid;
     grid-template-columns: auto auto auto;
 }
-
-
 #add-wallet-button{background-color: rgb(3, 95, 3);}
 #convert-currency-button, #money-transfer-button{background-color: rgb(6, 104, 185);}
 #delete-wallet-button,#remove-wallet-submit{background-color: rgb(116, 8, 8);}
@@ -58,7 +53,7 @@
 #add-wallet-button:hover,#convert-currency-button:hover, #money-transfer-button:hover,#delete-wallet-button:hover{background-color: white;color: black;border: 0.4vh solid black;transition: 0.5s;}
 #add-wallet-button:active,#convert-currency-button:active, #money-transfer-button:active,#delete-wallet-button:active{background-color: black;color: white;border: 0.4vh solid black;transition: 0.2s;}
 
-.add-wallet-div,.remove-wallet-div,.deposit-div,.withdrawal-div{
+.add-wallet-div,.remove-wallet-div,.deposit-div,.withdrawal-div,.transfer-div,.convert-div{
     height: 100%;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.801);
@@ -70,7 +65,7 @@
     flex-direction: column;
     z-index: 2;
 }
-.wallet-form,.deposit-form,.withdrawal-form{
+.wallet-form,.deposit-form,.withdrawal-form,.transfer-form,.convert-form{
     height: 70%;
     width: 30%;
     color: white;
@@ -127,7 +122,7 @@
     height: 25vh;
     width: auto;
 }
-.wallet-form input[type="submit"],.withdrawal-form input[type="submit"],.deposit-form input[type="submit"]{
+.wallet-form input[type="submit"],.withdrawal-form input[type="submit"],.deposit-form input[type="submit"],.transfer-form input[type="submit"],.convert-form input[type="submit"]{
     height: auto;
     width: auto;
     background-color: rgb(3, 95, 3);
@@ -136,7 +131,10 @@
     font-size: 3vh;    
     margin-top: 5%;
 }
-.wallet-form select,input{
+.convert-inputs{
+    margin-bottom: 5%;
+}
+.wallet-form select,.wallet-form input,.convert-form select,.convert-form input{
     height: 50px;
     width: auto;
     background-color: rgb(13, 21, 29);
@@ -162,7 +160,6 @@
     margin-top: 10%;
     font-size: 2vh;
 }
-
 .bank-ops-h3{
     height: auto;
     width: auto;

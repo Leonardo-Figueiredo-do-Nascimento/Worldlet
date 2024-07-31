@@ -34,6 +34,7 @@ const MoneyInput = ({ value, onChange }) => {
     height:'auto',
     width:'auto',
     textAlign:'end',
+    marginBottom: '5%'
   };
   return (
     <input
