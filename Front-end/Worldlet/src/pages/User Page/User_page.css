@@ -58,7 +58,7 @@
 #add-wallet-button:hover,#convert-currency-button:hover, #money-transfer-button:hover,#delete-wallet-button:hover{background-color: white;color: black;border: 0.4vh solid black;transition: 0.5s;}
 #add-wallet-button:active,#convert-currency-button:active, #money-transfer-button:active,#delete-wallet-button:active{background-color: black;color: white;border: 0.4vh solid black;transition: 0.2s;}
 
-.add-wallet-div,.remove-wallet-div{
+.add-wallet-div,.remove-wallet-div,.deposit-div,.withdrawal-div{
     height: 100%;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.801);
@@ -70,8 +70,8 @@
     flex-direction: column;
     z-index: 2;
 }
-.wallet-form{
-    height: 50%;
+.wallet-form,.deposit-form,.withdrawal-form{
+    height: 70%;
     width: 30%;
     color: white;
     background-color: rgb(34, 53, 73);
@@ -127,7 +127,7 @@
     height: 25vh;
     width: auto;
 }
-.wallet-form input[type="submit"]{
+.wallet-form input[type="submit"],.withdrawal-form input[type="submit"],.deposit-form input[type="submit"]{
     height: auto;
     width: auto;
     background-color: rgb(3, 95, 3);
@@ -161,4 +161,19 @@
     max-width: 90%;
     margin-top: 10%;
     font-size: 2vh;
+}
+
+.bank-ops-h3{
+    height: auto;
+    width: auto;
+    font-size: 5vh;
+    margin-bottom: 2%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+.bank-inputs{
+    height: auto;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }

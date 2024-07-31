@@ -98,3 +98,30 @@
     color: red;
     transition: 0.5s;
 }
+
+.deposit-div,.withdrawal-div{
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.801);
+    padding-bottom: 25%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 2;
+}
+.bank-ops-h3{
+    height: auto;
+    width: auto;
+    font-size: 5vh;
+    margin-bottom: 2%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+.bank-inputs{
+    height: auto;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}

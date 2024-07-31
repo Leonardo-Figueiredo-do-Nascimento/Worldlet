@@ -3,6 +3,7 @@ import { useParams,Link } from "react-router-dom"
 import UserHeader from "../../components/UserHeader/UserHeader"
 import CurrencyCard from "../../components/Currency Card/CurrencyCard"
 import CurrencyCodeInput from "../../components/CurrencyCodeInput/CurrencyCodeInput"
+import MoneyInput from "../../components/MoneyInput/MoneyInput"
 import axios from "axios"
 import './User_page.css'
 import config from '../serverURL'
@@ -24,6 +25,12 @@ export default function User_Page(){
     const [removeWallet, setRemoveWallet] = useState(false)
     const [walletDelete,setWalletDelete] = useState("")
     const [currencyData, setCurrencyData] = useState(null)
+    const [selectedCurrency,setSelectedCurrency] = useState("")
+    const [amount,setAmount] = useState(0)
+    const [limit,setLimit] = useState(0)
+    const [addDeposit,setAddDeposit] = useState(false)
+    const [addWithdrawal,setAddWithdrawal] = useState(false)
+
     const { user_name } = useParams()
 
     //UseEffect to get user data
@@ -127,6 +134,42 @@ export default function User_Page(){
         }
     }, [walletCurrency, walletCurrencySymbol, walletIsoCode, walletCard, walletUser]);
 
+    const invest = async (e)=>{
+        if(amount>0){
+            try {
+                const response = await axios.put(`${serverURL}/${user_name}/wallets/self-deposit-wallet/${selectedCurrency}/${amount}`)    
+                const responseData = response.data
+                if (response.status === 200) { 
+                    console.log('Deposit successful:', responseData);
+                    window.location.reload()
+                } else {
+                    console.log('Register error:', responseData);
+                }
+            } catch (error){
+                console.log("Error: ",error)
+            }
+        }
+    }
+    const withdraw = async (e)=>{
+        if(amount>0 && amount<=limit){
+            try {
+                const response = await axios.put(`${serverURL}/${user_name}/wallets/withdraw-wallet/${selectedCurrency}/${amount}`)    
+                const responseData = response.data
+                if (response.status === 200) { 
+                    console.log('Withdrawall successful:', responseData);
+                    window.location.reload()
+                } else {
+                    console.log('Register error:', responseData);
+                }
+            } catch (error){
+                console.log("Error: ",error)
+            }
+        } else{
+            alert("Withdraw cannot be processed because the balance is insufficient")
+        }
+    }
+    
+
     const createWallet = async (e) =>{
         e.preventDefault()
         if(walletIsoCode != "" && walletCard != ''){
@@ -220,6 +263,36 @@ export default function User_Page(){
             </div>
         )
     }
+    const depositForm = () =>{
+        return (
+            <div className="deposit-div">
+                <button onClick={()=>setAddDeposit(false)} id="close-button"><img src="../../public/Sem.png"/></button>
+                <form className="deposit-form" onSubmit={invest}> 
+                    <h3 className="bank-ops-h3">Deposit</h3>
+                    <div className="bank-inputs">
+                        <label>Deposit Amount:</label>
+                        <MoneyInput value={amount} onChange={setAmount}/>
+                    </div>
+                    <input type="submit" value="Deposit"/>
+                </form>
+            </div>
+        )
+    }
+    const withdrawalForm = () =>{
+        return (
+            <div className="withdrawal-div">
+                <button onClick={()=>setAddWithdrawal(false)} id="close-button"><img src="../../public/Sem.png"/></button>
+                <form className="withdrawal-form" onSubmit={withdraw}> 
+                    <h3 className="bank-ops-h3">Withdrawal</h3>
+                    <div className="bank-inputs">
+                        <label>Withdrawal Amount:</label>
+                        <MoneyInput value={amount} onChange={setAmount}/>
+                    </div>
+                    <input type="submit" value="Withdraw" style={{backgroundColor:'red'}}/>
+                </form>
+            </div>
+        )
+    }
 
     return(
         <div className="user-page">
@@ -234,10 +307,18 @@ export default function User_Page(){
                     </div>
                     {addWallet ? addWalletForm():(<></>)}
                     {removeWallet ? removeWalletForm():(<></>)}
+                    {addDeposit ? depositForm():(<></>)}
+                    {addWithdrawal ? withdrawalForm():(<></>)}
                     <div className="wallets">
                         {
                             wallets.map((wallet,index)=>(
-                                <CurrencyCard key={index} currencySymbol={wallet.currencySymbol} currencyCode={wallet.isoCode} amount={wallet.amount}/>
+                                <CurrencyCard key={index}
+                                    currencySymbol={wallet.currencySymbol} 
+                                    currencyCode={wallet.isoCode} 
+                                    amount={wallet.amount}
+                                    depositFunction={()=>{setAddDeposit(true);setSelectedCurrency(wallet.isoCode)}}
+                                    withdrawalFunction={()=>{setAddWithdrawal(true);setSelectedCurrency(wallet.isoCode);setLimit(wallet.amount)}}
+                                />
                             ))
                         }
                     </div>
