@@ -10,5 +10,6 @@ import java.util.Optional;
 public interface WalletRepository extends JpaRepository<Wallet,Integer>{
     List<Wallet> findAllByUserWallet(Optional<User> user);
     Optional<Wallet> findWalletByIsoCode(String isoCode);
+    Wallet findByIsoCodeAndUserWallet(String isoCode,Optional<User> user);
     void deleteByIsoCode(String isoCode);
 }

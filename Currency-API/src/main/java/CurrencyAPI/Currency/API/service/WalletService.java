@@ -52,14 +52,19 @@ public class WalletService {
             walletRepository.save(wallet);
         } ;
     }
-    public void selfDeposit(Wallet wallet, float amount){
-        depositWalletAmount(wallet.getUserWallet().getIdUser(),amount);
+    @Transactional
+    public void selfDeposit(String userName,String isoCode, float amount){
+        Wallet wallet = walletRepository.findByIsoCodeAndUserWallet(isoCode,userService.getUserByName(userName));
+        depositWalletAmount(wallet.getWalletId(),amount);
         transactionService.createTransaction(wallet.getUserWallet(),wallet.getUserWallet(),wallet.getCurrency(),"Self Deposit",amount,wallet.getWalletCard());
     }
-    public void withdrawalWallet(Wallet wallet, float amount){
-        debitWalletAmount(wallet.getUserWallet().getIdUser(),amount);
+    @Transactional
+    public void withdrawalWallet(String userName,String isoCode, float amount){
+        Wallet wallet = walletRepository.findByIsoCodeAndUserWallet(isoCode,userService.getUserByName(userName));
+        debitWalletAmount(wallet.getWalletId(),amount);
         transactionService.createTransaction(wallet.getUserWallet(),wallet.getUserWallet(),wallet.getCurrency(),"Withdrawal",amount,wallet.getWalletCard());
     }
+    @Transactional
     public void transferMoney(User sender,User recipient,String currency,float amount){
         Wallet senderWallet = walletRepository.findById(sender.getIdUser()).orElse(null);
         Wallet recipientWallet = walletRepository.findById(recipient.getIdUser()).orElse(null);

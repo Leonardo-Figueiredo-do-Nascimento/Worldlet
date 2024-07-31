@@ -35,16 +35,13 @@ public class WalletController {
     public void deleteWallet(@PathVariable("isoCode") String isoCode){
         walletService.deleteWallet(isoCode);
     }
-    @PutMapping("/deposit-wallet/{amount}")
-    public void depositWallet(@RequestBody Wallet wallet,@PathVariable("amount") float amount){
-        walletService.depositWalletAmount(wallet.getWalletId(),amount);
+
+    @PutMapping("/withdraw-wallet/{isoCode}/{amount}")
+    public void debitWallet(@PathVariable("user_name") String userName,@PathVariable("isoCode") String isoCode,@PathVariable("amount") float amount){
+        walletService.withdrawalWallet(userName,isoCode,amount);
     }
-    @PutMapping("/debit-wallet/{amount}")
-    public void debitWallet(@RequestBody Wallet wallet,@PathVariable("amount") float amount){
-        walletService.debitWalletAmount(wallet.getWalletId(),amount);
-    }
-    @PutMapping("/self-deposit-wallet/{amount}")
-    public void selfDepositWallet(@RequestBody Wallet wallet,@PathVariable("amount") float amount){
-        walletService.selfDeposit(wallet,amount);
+    @PutMapping("/self-deposit-wallet/{isoCode}/{amount}")
+    public void selfDepositWallet(@PathVariable("user_name") String userName,@PathVariable("isoCode") String isoCode,@PathVariable("amount") float amount){
+        walletService.selfDeposit(userName,isoCode,amount);
     }
 }
