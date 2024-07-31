@@ -26,6 +26,8 @@ export default function User_Page(){
     const [selectedCurrency,setSelectedCurrency] = useState("")
 
     const [convertWallet, setConvertWallet] = useState(null)
+    const [recipientUser,setRecipientUser] = useState(null)
+    const [recipientUserName,setRecipientUserName] = useState("")
     const [amount,setAmount] = useState(0)
     const [limit,setLimit] = useState(0)
     const [convertLimit,setConvertLimit] = useState(0)
@@ -179,6 +181,18 @@ export default function User_Page(){
             console.log("Font Wallet Amount:", fontWallet.amount);
         }
     }, [walletIsoCode, wallets]);
+     //UseEffect to get recipient user data
+     useEffect(() => {
+        async function getData() {
+            try {
+                const response = await axios.get(`${serverURL}/user/${recipientUserName}`)
+                setRecipientUser(response.data)
+            } catch (error) {
+                console.log("Error: ", error)
+            }
+        }
+        getData()
+    }, [recipientUserName])
 
     const createWallet = async (e) =>{
         e.preventDefault()
@@ -321,6 +335,9 @@ export default function User_Page(){
             }
         }
     }
+    const transfer = async (e) =>{
+        e.preventDefault()
+    }
     const addWalletForm = () =>{
         return(
             <div className="add-wallet-div">
@@ -355,7 +372,7 @@ export default function User_Page(){
         return(
             <div className="remove-wallet-div">
                 <button onClick={()=>setRemoveWallet(false)} id="close-button"><img src="../../public/Sem.png"/></button>
-                <form className="wallet-form" onSubmit={deleteWallet}> 
+                <form className="remove-form" onSubmit={deleteWallet}> 
                     <h3 id="add-wallet-h3">Remove Wallet</h3>
                     <div className="wallet-inputs">
                         <label>Currency:</label>
@@ -400,11 +417,18 @@ export default function User_Page(){
         return (
             <div className="transfer-div">
                 <button onClick={()=>setTransferMoney(false)} id="close-button"><img src="../../public/Sem.png"/></button>
-                <form className="transfer-form" onSubmit={invest}> 
+                <form className="transfer-form" onSubmit={transfer}> 
                     <h3 className="bank-ops-h3">Transfer</h3>
                     <div className="bank-inputs">
                         <label>Recipient User:</label>
                         <input type="text" name="" id="" />
+                        <label>Actual Currency:</label>
+                        <select className="convert-inputs" value={walletIsoCode} onChange={(e)=> {setWalletIsoCode(e.target.value)}}>
+                            <option value="" disabled hidden>Choose the currency</option>
+                            {wallets.map(wallet=>(
+                                <option key={wallet.walletId} value={wallet.isoCode}>{wallet.isoCode}({wallet.currencySymbol})  </option>
+                            ))}
+                        </select>
                         <label>Transfer Amount:</label>
                         <MoneyInput value={amount} onChange={setAmount}/>
                     </div>
