@@ -26,7 +26,6 @@ export default function User_Page(){
     const [selectedCurrency,setSelectedCurrency] = useState("")
 
     const [convertWallet, setConvertWallet] = useState(null)
-    const [recipientUser,setRecipientUser] = useState(null)
     const [recipientUserName,setRecipientUserName] = useState("")
     const [amount,setAmount] = useState(0)
     const [limit,setLimit] = useState(0)
@@ -181,19 +180,6 @@ export default function User_Page(){
             console.log("Font Wallet Amount:", fontWallet.amount);
         }
     }, [walletIsoCode, wallets]);
-     //UseEffect to get recipient user data
-     useEffect(() => {
-        async function getData() {
-            try {
-                const response = await axios.get(`${serverURL}/user/${recipientUserName}`)
-                setRecipientUser(response.data)
-            } catch (error) {
-                console.log("Error: ", error)
-            }
-        }
-        getData()
-    }, [recipientUserName])
-
     const createWallet = async (e) =>{
         e.preventDefault()
         if(walletIsoCode != "" && walletCard != ''){
@@ -337,6 +323,23 @@ export default function User_Page(){
     }
     const transfer = async (e) =>{
         e.preventDefault()
+        if(recipientUserName!=""&&walletIsoCode!=""&&(amount>0&&amount<=convertLimit)){
+            try {
+                const response = await axios.put(`${serverURL}/${user_name}/wallets/money-transfer/${recipientUserName}/${walletIsoCode}/${amount}`)    
+                const responseData = response.data
+                if (response.status === 200) { 
+                    console.log('Transfer successful:', responseData);
+                    window.location.reload()
+                } else {
+                    console.log('Transfer error:', responseData);
+                }
+            } catch (error){
+                if(error.response.status === 500){
+                    alert(error.response.data)
+                } else
+                console.log("Error: ",error)
+            }
+        }
     }
     const addWalletForm = () =>{
         return(
@@ -421,8 +424,8 @@ export default function User_Page(){
                     <h3 className="bank-ops-h3">Transfer</h3>
                     <div className="bank-inputs">
                         <label>Recipient User:</label>
-                        <input type="text" name="" id="" />
-                        <label>Actual Currency:</label>
+                        <input type="text" placeholder="Insert recipient name" value={recipientUserName} onChange={(e)=>setRecipientUserName(e.target.value)}/>
+                        <label>Currency:</label>
                         <select className="convert-inputs" value={walletIsoCode} onChange={(e)=> {setWalletIsoCode(e.target.value)}}>
                             <option value="" disabled hidden>Choose the currency</option>
                             {wallets.map(wallet=>(
