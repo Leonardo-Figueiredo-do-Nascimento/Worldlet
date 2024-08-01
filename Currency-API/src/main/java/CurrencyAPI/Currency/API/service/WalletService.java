@@ -27,6 +27,9 @@ public class WalletService {
     public Optional<Wallet> getWalletByIsoCode(String isoCode){
         return walletRepository.findWalletByIsoCode(isoCode);
     }
+    public Wallet getWalletByIsoCodeAndUserName(String isoCode,String userName){
+        return walletRepository.findByIsoCodeAndUserWallet(isoCode,userService.getUserByName(userName));
+    }
     public Wallet createWallet(Wallet wallet){
         return walletRepository.save(wallet);
     }
@@ -65,12 +68,20 @@ public class WalletService {
         transactionService.createTransaction(wallet.getUserWallet(),wallet.getUserWallet(),wallet.getCurrency(),"Withdrawal",amount,wallet.getWalletCard());
     }
     @Transactional
-    public void transferMoney(User sender,User recipient,String currency,float amount){
-        Wallet senderWallet = walletRepository.findById(sender.getIdUser()).orElse(null);
-        Wallet recipientWallet = walletRepository.findById(recipient.getIdUser()).orElse(null);
-        debitWalletAmount(sender.getIdUser(),amount);
-        transactionService.createTransaction(sender,recipient,currency,"Deposit Transfer",amount,senderWallet.getWalletCard());
-        depositWalletAmount(recipient.getIdUser(),amount);
-        transactionService.createTransaction(sender,recipient,currency,"Incoming Transfer",amount,recipientWallet.getWalletCard());
+    public void transferMoney(String senderName,String recipientName,String isoCode,float amount){
+        Optional<User> senderUser = userService.getUserByName(senderName);
+        Optional<User> recipientUser = userService.getUserByName(recipientName);
+        if(senderUser.isPresent() && recipientUser.isPresent()){
+            User sender = senderUser.get();
+            User recipient = recipientUser.get();
+            Wallet senderWallet = walletRepository.findByIsoCodeAndUserWallet(isoCode,senderUser);
+            Wallet recipientWallet = walletRepository.findByIsoCodeAndUserWallet(isoCode,recipientUser);
+            if(senderWallet!=null&&recipientWallet!=null){
+                debitWalletAmount(senderWallet.getWalletId(),amount);
+                transactionService.createTransaction(sender,recipient,senderWallet.getCurrency(),"Deposit Transfer",amount,senderWallet.getWalletCard());
+                depositWalletAmount(recipientWallet.getWalletId(),amount);
+                transactionService.createTransaction(sender,recipient,senderWallet.getCurrency(),"Incoming Transfer",amount,recipientWallet.getWalletCard());
+            }
+        }
     }
 }

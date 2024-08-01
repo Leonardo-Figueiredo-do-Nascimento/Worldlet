@@ -25,8 +25,9 @@ public class WalletController {
         return walletService.getUserWallets(userService.getUserByName(userName));
     }
     @PostMapping("/new-wallet")
-    public ResponseEntity<?> saveWallet(@RequestBody Wallet wallet){
-        if(walletService.getWalletByIsoCode(wallet.getIsoCode()).isPresent()){
+    public ResponseEntity<?> saveWallet(@RequestBody Wallet wallet,@PathVariable("user_name") String userName){
+        Wallet existingWallet = walletService.getWalletByIsoCodeAndUserName(wallet.getIsoCode(), userName);
+        if (existingWallet != null){
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Currency already exists");
         }
         return ResponseEntity.ok(walletService.createWallet(wallet));
@@ -43,5 +44,14 @@ public class WalletController {
     @PutMapping("/self-deposit-wallet/{isoCode}/{amount}")
     public void selfDepositWallet(@PathVariable("user_name") String userName,@PathVariable("isoCode") String isoCode,@PathVariable("amount") float amount){
         walletService.selfDeposit(userName,isoCode,amount);
+    }
+    @PutMapping("/money-transfer/{recipientUserName}/{isoCode}/{amount}")
+    public ResponseEntity<?> transferMoneyToUser(@PathVariable("user_name") String userName,@PathVariable("recipientUserName") String recipientName,@PathVariable("isoCode") String isoCode,@PathVariable("amount") float amount){
+        try {
+            walletService.transferMoney(userName, recipientName, isoCode, amount);
+            return ResponseEntity.ok("Transfer successful");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Transfer failed: " + e.getMessage());
+        }
     }
 }
