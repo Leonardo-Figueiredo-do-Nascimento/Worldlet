@@ -50,7 +50,9 @@ public class WalletController {
         try {
             walletService.transferMoney(userName, recipientName, isoCode, amount);
             return ResponseEntity.ok("Transfer successful");
-        } catch (Exception e) {
+        } catch (WalletService.WalletNotFoundException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Transfer failed: " + e.getMessage());
+        }catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Transfer failed: " + e.getMessage());
         }
     }

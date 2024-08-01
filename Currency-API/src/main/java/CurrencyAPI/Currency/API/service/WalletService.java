@@ -67,6 +67,11 @@ public class WalletService {
         debitWalletAmount(wallet.getWalletId(),amount);
         transactionService.createTransaction(wallet.getUserWallet(),wallet.getUserWallet(),wallet.getCurrency(),"Withdrawal",amount,wallet.getWalletCard());
     }
+    public class WalletNotFoundException extends RuntimeException {
+        public WalletNotFoundException(String message) {
+            super(message);
+        }
+    }
     @Transactional
     public void transferMoney(String senderName,String recipientName,String isoCode,float amount){
         Optional<User> senderUser = userService.getUserByName(senderName);
@@ -81,7 +86,11 @@ public class WalletService {
                 transactionService.createTransaction(sender,recipient,senderWallet.getCurrency(),"Deposit Transfer",amount,senderWallet.getWalletCard());
                 depositWalletAmount(recipientWallet.getWalletId(),amount);
                 transactionService.createTransaction(sender,recipient,senderWallet.getCurrency(),"Incoming Transfer",amount,recipientWallet.getWalletCard());
+            } else{
+                throw new WalletNotFoundException("Recipient does not have a wallet with the specified ISO code.");
             }
+        }else {
+            throw new WalletNotFoundException("Recipient not found.");
         }
     }
 }
