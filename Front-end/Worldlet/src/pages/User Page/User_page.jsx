@@ -330,15 +330,22 @@ export default function User_Page(){
                 if (response.status === 200) { 
                     console.log('Transfer successful:', responseData);
                     window.location.reload()
-                } else {
+                } else if(response.status === 400){
+                    alert('Transfer not possible: ',responseData)
+                }else {
                     console.log('Transfer error:', responseData);
                 }
             } catch (error){
                 if(error.response.status === 500){
                     alert(error.response.data)
-                } else
+                }if(error.response.status === 400){
+                    alert(error.response.data)
+                }
+                 else
                 console.log("Error: ",error)
             }
+        }else {
+            alert('Please fill all the fields correctly.');
         }
     }
     const addWalletForm = () =>{
