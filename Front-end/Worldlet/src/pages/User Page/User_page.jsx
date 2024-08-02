@@ -26,13 +26,13 @@ export default function User_Page(){
     const [selectedCurrency,setSelectedCurrency] = useState("")
 
     const [convertWallet, setConvertWallet] = useState(null)
+    const [convertCard, setConvertCard] = useState(null)
     const [recipientUserName,setRecipientUserName] = useState("")
     const [amount,setAmount] = useState(0)
     const [limit,setLimit] = useState(0)
     const [convertLimit,setConvertLimit] = useState(0)
     const [targetCurrency,setTargetCurrency] = useState("")
     const [targetCurrencyData,setTargetCurrencyData] = useState("")
-    const [currencyExists,setCurrencyExists] = useState(false)
     const [addWallet, setAddWallet] = useState(false)
     const [removeWallet, setRemoveWallet] = useState(false)
     const [convertCurrency, setConvertCurrency] = useState(false)
@@ -172,13 +172,13 @@ export default function User_Page(){
         };
             setConvertWallet({
                 isoCode: targetCurrency,
-                currencySymbol: walletCurrencySymbol,
-                currency: walletCurrency,
-                walletCard: walletCard,
+                currencySymbol: targetCurrencyData.symbol,
+                currency: targetCurrencyData.name,
+                walletCard: convertCard,
                 amount: getFormattedValue(amount,convertValue),
                 userWallet: walletUser
             })
-    }, [walletCurrency, walletCurrencySymbol, amount,targetCurrency, walletCard, walletUser]);
+    }, [targetCurrencyData, amount,targetCurrency, convertCard, walletUser]);
     useEffect(() => {
         const fontWallet = wallets.find(wallet => wallet.isoCode === walletIsoCode);
         if (fontWallet) {
@@ -353,8 +353,7 @@ export default function User_Page(){
                                 window.location.reload()
                             } else {
                                 console.log('Update error:', postResponseData);
-                            }
-                            
+                            }            
                 }catch (error){
                         console.log("Error: ",error)
                 }
@@ -454,10 +453,14 @@ export default function User_Page(){
                         </div>):(<></>)}
                         <div className="bank-inputs">
                             <label>Base Currency:</label>
-                            <select className="convert-inputs" value={walletIsoCode} onChange={(e)=> {setWalletIsoCode(e.target.value);setWalletCard(e.target.card)}}>
+                            <select className="convert-inputs" value={walletIsoCode} onChange={(e)=> {
+                                    const selectedWallet = wallets.find(wallet => wallet.isoCode === e.target.value);
+                                    setWalletIsoCode(selectedWallet.isoCode);
+                                    setConvertCard(selectedWallet.walletCard);
+                                }}>
                                 <option value="" disabled hidden>Choose the currency</option>
                                 {wallets.map(wallet=>(
-                                    <option key={wallet.walletId} value={wallet.isoCode} card={wallet.walletCard}>{wallet.isoCode}</option>
+                                    <option key={wallet.walletId} value={wallet.isoCode}>{wallet.isoCode}</option>
                                 ))}
                             </select>
                             <label>Convert Amount:</label>

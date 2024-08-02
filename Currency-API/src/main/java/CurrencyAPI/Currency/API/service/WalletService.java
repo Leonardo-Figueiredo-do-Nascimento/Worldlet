@@ -31,10 +31,7 @@ public class WalletService {
         return walletRepository.findByIsoCodeAndUserWallet(isoCode,userService.getUserByName(userName));
     }
     public Wallet createWallet(Wallet wallet){
-        return walletRepository.save(wallet);
-    }
-    public Wallet createWallet(User user, String currency, float currencyAmount, String currencySymbol, String isoCode, CreditCard card){
-        Wallet wallet = new Wallet(currency,currencyAmount,currencySymbol,isoCode,user,card);
+        transactionService.createTransaction(wallet.getUserWallet(),wallet.getUserWallet(),wallet.getCurrency(),"Wallet Creation",wallet.getAmount(),wallet.getWalletCard());
         return walletRepository.save(wallet);
     }
     @Transactional
