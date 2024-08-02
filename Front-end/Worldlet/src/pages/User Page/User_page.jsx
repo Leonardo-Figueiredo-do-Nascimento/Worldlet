@@ -31,6 +31,7 @@ export default function User_Page(){
     const [limit,setLimit] = useState(0)
     const [convertLimit,setConvertLimit] = useState(0)
     const [targetCurrency,setTargetCurrency] = useState("")
+    const [targetCurrencyData,setTargetCurrencyData] = useState("")
     const [currencyExists,setCurrencyExists] = useState(false)
     const [addWallet, setAddWallet] = useState(false)
     const [removeWallet, setRemoveWallet] = useState(false)
@@ -38,6 +39,8 @@ export default function User_Page(){
     const [transferMoney, setTransferMoney] = useState(false)
     const [addDeposit,setAddDeposit] = useState(false)
     const [addWithdrawal,setAddWithdrawal] = useState(false)
+    const [exchangeCurrencies,setExchangeCurrencies] = useState(false)
+    const [convertData,setConvertData] = useState([])
 
     const { user_name } = useParams()
 
@@ -131,14 +134,13 @@ export default function User_Page(){
                 })
                 .then(data => {
                     const currency = Object.values(data[0].currencies)[0];
-                    setCurrencyData(currency);
+                    setTargetCurrencyData(currency);
                 })
                 .catch(error => {
                     console.log(error);
                 });
         }
     }, [targetCurrency]);
-
     //useEffect to attribute currency info into states
     useEffect(() => {
         if (currencyData) {
@@ -146,7 +148,6 @@ export default function User_Page(){
             setWalletCurrencySymbol(currencyData.symbol);
         }
     }, [currencyData]);
-
     //useEffect to set new wallet
     useEffect(() => {
         if (walletCurrency && walletCurrencySymbol && walletIsoCode && walletCard && walletUser) {
@@ -160,19 +161,24 @@ export default function User_Page(){
             });
         }
     }, [walletCurrency, walletCurrencySymbol, walletIsoCode, walletCard, walletUser]);
-
     //useEffect to set new wallet for convert
     useEffect(() => {
+        const convertCurrency = targetCurrency.toLowerCase()
+        const convertValue = convertData[convertCurrency]
+        const getFormattedValue = (amount, convertValue) => {
+            const rawValue = amount * convertValue;
+            const roundedValue = Number(rawValue.toFixed(2));
+            return roundedValue;
+        };
             setConvertWallet({
                 isoCode: targetCurrency,
                 currencySymbol: walletCurrencySymbol,
                 currency: walletCurrency,
                 walletCard: walletCard,
-                amount: amount,
+                amount: getFormattedValue(amount,convertValue),
                 userWallet: walletUser
             })
     }, [walletCurrency, walletCurrencySymbol, amount,targetCurrency, walletCard, walletUser]);
-    
     useEffect(() => {
         const fontWallet = wallets.find(wallet => wallet.isoCode === walletIsoCode);
         if (fontWallet) {
@@ -180,6 +186,32 @@ export default function User_Page(){
             console.log("Font Wallet Amount:", fontWallet.amount);
         }
     }, [walletIsoCode, wallets]);
+    useEffect(() => {
+        if (walletIsoCode !== '' && targetCurrency !== '') {
+            setExchangeCurrencies(true);
+        }
+    }, [walletIsoCode, amount, targetCurrency]);
+    //useEffect to get the exchange rates of the base currency
+    useEffect(()=>{
+        if (walletIsoCode) {
+            const currency = walletIsoCode.toLowerCase()
+            fetch(`https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/${currency}.json`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const currenciesRates = data[currency]
+                setConvertData(currenciesRates);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+                
+        }
+    },[walletIsoCode])
     const createWallet = async (e) =>{
         e.preventDefault()
         if(walletIsoCode != "" && walletCard != ''){
@@ -260,6 +292,15 @@ export default function User_Page(){
     }
     const convert = async (e) =>{
         e.preventDefault()
+        const convertCurrency = targetCurrency.toLowerCase()
+        const convertValue = convertData[convertCurrency]
+        const getFormattedValue = (amount, convertValue) => {
+            const rawValue = amount * convertValue;
+            const roundedValue = Number(rawValue.toFixed(2));
+            return roundedValue;
+        };
+        const formattedValue = getFormattedValue(amount, convertValue);
+
         if(walletIsoCode === targetCurrency){
             alert("Select different currencies")
         } else{
@@ -272,7 +313,7 @@ export default function User_Page(){
                         const originalResponse = await axios.put(`${serverURL}/${user_name}/wallets/withdraw-wallet/${walletIsoCode}/${amount}`)    
                         const originalResponseData = originalResponse.data
                         if (originalResponse.status === 200) {
-                            const convertResponse = await axios.put(`${serverURL}/${user_name}/wallets/self-deposit-wallet/${targetCurrency}/${amount}`) 
+                            const convertResponse = await axios.put(`${serverURL}/${user_name}/wallets/self-deposit-wallet/${targetCurrency}/${formattedValue}`) 
                             const convertData = convertResponse.data
                             if (convertResponse.status === 200) {
                                 window.location.reload()
@@ -290,7 +331,6 @@ export default function User_Page(){
                     alert("Currency conversion cannot be processed because the balance is insufficient")
                 }
             } else {
-                
                 const walletData = JSON.stringify(convertWallet)
                 console.log(walletData)
                 try {
@@ -400,23 +440,35 @@ export default function User_Page(){
         )
     }
     const convertForm = () =>{
+        const convertCurrency = targetCurrency.toLowerCase()
+        const convertValue = convertData[convertCurrency]
         return (
             <div className="convert-div">
                 <button onClick={()=>setConvertCurrency(false)} id="close-button"><img src="../../public/Sem.png"/></button>
                 <form className="convert-form" onSubmit={convert}> 
                     <h3 className="bank-ops-h3">Convert</h3>
-                    <div className="bank-inputs">
-                        <label>Actual Currency:</label>
-                        <select className="convert-inputs" value={walletIsoCode} onChange={(e)=> {setWalletIsoCode(e.target.value);setWalletCard(e.target.card)}}>
-                            <option value="" disabled hidden>Choose the currency</option>
-                            {wallets.map(wallet=>(
-                                <option key={wallet.walletId} value={wallet.isoCode} card={wallet.walletCard}>{wallet.isoCode}</option>
-                            ))}
-                        </select>
-                        <label>Convert Amount:</label>
-                        <MoneyInput value={amount} onChange={setAmount}/>
-                        <label>Target Currency:</label>
-                        <CurrencyCodeInput onCurrencySelect={(selectedCurrency)=> setTargetCurrency(selectedCurrency)}/>
+                    <div className="exchange-div">
+                        {exchangeCurrencies ? (<div className="exchange-card">
+                            <h2 className="exchange-h2">{walletCurrencySymbol}</h2>
+                            <p>{amount}</p>
+                        </div>):(<></>)}
+                        <div className="bank-inputs">
+                            <label>Base Currency:</label>
+                            <select className="convert-inputs" value={walletIsoCode} onChange={(e)=> {setWalletIsoCode(e.target.value);setWalletCard(e.target.card)}}>
+                                <option value="" disabled hidden>Choose the currency</option>
+                                {wallets.map(wallet=>(
+                                    <option key={wallet.walletId} value={wallet.isoCode} card={wallet.walletCard}>{wallet.isoCode}</option>
+                                ))}
+                            </select>
+                            <label>Convert Amount:</label>
+                            <MoneyInput value={amount} onChange={setAmount}/>
+                            <label>Target Currency:</label>
+                            <CurrencyCodeInput onCurrencySelect={(selectedCurrency)=> setTargetCurrency(selectedCurrency)}/>
+                        </div>
+                        {exchangeCurrencies ? (<div className="exchange-card">
+                            <h2 className="exchange-h2">{targetCurrencyData.symbol}</h2>
+                            <p>{(amount * convertValue).toFixed(2)}</p>
+                        </div>):(<></>)}
                     </div>
                     <input type="submit" value="Convert"/>
                 </form>
