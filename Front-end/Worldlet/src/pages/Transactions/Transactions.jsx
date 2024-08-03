@@ -11,6 +11,8 @@ export default function Transactions(){
     const [transactions,setTransactions] = useState([])
     const [wallets, setWallets] = useState([])
     const [userData,setUserData] = useState()
+    const [orderByCurrency,setOrderByCurrency] = useState(false)
+    const [orderByDate,setOrderByDate] = useState(true)
     const {user_name} = useParams()
 
     //UseEffect to get user data
@@ -52,13 +54,35 @@ export default function Transactions(){
         const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
         return new Date(dateString).toLocaleDateString('en-US', options);
     };
-
+    const handleSortChange = (e) => {
+        const value = e.target.value;
+        if (value === "date") {
+            setOrderByDate(true);
+            setOrderByCurrency(false);
+        } else if (value === "currency") {
+            setOrderByDate(false);
+            setOrderByCurrency(true);
+        }
+    };
+    const sortedTransactions = [...transactions].sort((a, b) => {
+        if (orderByCurrency) {
+            return a.currency.localeCompare(b.currency);
+        }
+        if (orderByDate) {
+            return new Date(a.operationDate) - new Date(b.operationDate);
+        }
+        return 0;
+    });
     return(
         <div className="transaction-page">
             <UserHeader/>
             <div className="transaction-container">
                 <div className="transaction-overlay">
                     <Link to={`/account/${user_name}`} id="go-back"><img src="../../../public/Go back icon.png"/></Link>
+                    <select className="transaction-sort-select" onChange={(e) => handleSortChange(e)}>
+                        <option value="date">Order by Date</option>
+                        <option value="currency">Order by Currency</option>
+                    </select>
                     <div className="transactions-div">
                         <div className="transaction-column">
                             <p>Currency</p>
@@ -67,7 +91,7 @@ export default function Transactions(){
                             <p>Date</p>
                         </div>
                         {console.log(transactions)}
-                        {transactions.map((transaction,index)=>{
+                        {sortedTransactions.map((transaction,index)=>{
                             const formattedDate = formatDate(transaction.operationDate)
                             const currency = wallets.find(wallet => wallet.currency === transaction.currency)
                             console.log(currency)
@@ -75,7 +99,7 @@ export default function Transactions(){
                                 <div className="transaction-card" key={index}>
                                     <h4>{currency.isoCode}</h4>
                                     <p>{transaction.operation}</p>
-                                    <p style={{textAlign:"center"}}>{transaction.operationAmount}</p>
+                                    <p style={{textAlign:"center"}}>{transaction.operationAmount.toFixed(2)}</p>
                                     <p>{formattedDate}</p>
                                 </div>
                         )})}
