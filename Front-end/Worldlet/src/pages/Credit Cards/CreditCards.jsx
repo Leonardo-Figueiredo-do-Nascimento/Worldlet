@@ -28,7 +28,11 @@ export default function CreditCards(){
         async function getData(){
             try {
                 const response = await axios.get(`${serverURL}/user/${user_name}`)
-                setUser(response.data)
+                if(response.data == null){
+                    window.location.href = '/'
+                }else{
+                    setUser(response.data)
+                }
             } catch (error) {
                 console.log("Error: ",error)
             }

@@ -20,9 +20,14 @@ export default function Transactions(){
         async function getData() {
             try {
                 const response = await axios.get(`${serverURL}/user/${user_name}`)
-                setUserData(response.data)
+                if(response.data == null){
+                    window.location.href = '/'
+                }else{
+                    setUserData(response.data)
+                }
             } catch (error) {
                 console.log("Error: ", error)
+                
             }
         }
         getData()

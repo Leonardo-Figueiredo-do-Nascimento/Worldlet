@@ -49,9 +49,14 @@ export default function User_Page(){
         async function getData() {
             try {
                 const response = await axios.get(`${serverURL}/user/${user_name}`)
-                setWalletUser(response.data)
+                if(response.data == null){
+                    window.location.href = '/'
+                }else{
+                    setWalletUser(response.data)
+                }
             } catch (error) {
                 console.log("Error: ", error)
+                
             }
         }
         getData()
