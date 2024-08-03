@@ -74,6 +74,7 @@ export default function CountryInput({onCountrySelect}) {
   };
 
   return (
+    <div className="country-input">
       <Autosuggest
         suggestions={suggestions}
         onSuggestionsFetchRequested={onSuggestionsFetchRequested}
@@ -83,5 +84,6 @@ export default function CountryInput({onCountrySelect}) {
         inputProps={inputProps}
         onSuggestionSelected={onSuggestionSelected}
       />
+    </div>
   );
 }  

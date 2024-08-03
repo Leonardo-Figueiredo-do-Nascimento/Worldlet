@@ -169,7 +169,7 @@ export default function CreditCards(){
             <UserHeader/>
             <div className="user-cards-container">
                 <div className="overlay">
-                    <Link to={`/account/${user_name}`} id="go-back"><img src="../../../public/Go back icon.png"/></Link>
+                    <Link to={`/account/${user_name}`} id="go-back-cc"><img src="../../../public/Go back icon.png"/></Link>
                     {
                         cards.length>0 ? (
                             <div className="cards-content">

@@ -7,7 +7,7 @@
     overflow-y: auto;
 }
 .overlay {
-    height: inherit;
+    height: 100%;
     width: inherit;
     background: rgba(0, 0, 0, 0.9);
     display: flex;
@@ -15,14 +15,15 @@
     align-items: center;
     overflow:auto;
   }
-#go-back{
+#go-back-cc{
     height: 9vh;
     width: 9vh;
+    top: 15%;
     margin-right: 90%;
     margin-bottom: 40%;
     position: absolute;
 }
-#go-back img{
+#go-back-cc img{
     height: 9vh;
     width: 9vh;
     border-radius: 100%;

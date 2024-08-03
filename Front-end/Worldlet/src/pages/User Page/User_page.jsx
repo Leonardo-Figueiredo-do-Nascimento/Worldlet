@@ -436,7 +436,7 @@ export default function User_Page(){
                                 <option key={wallet.walletId} value={wallet.isoCode}>{wallet.isoCode}</option>
                             ))}
                         </select>
-                        {walletDelete!="" ? (<p id="return-investiment-p">The total amount of {selected.currencySymbol}{selected.amount} will return to your credit card account</p>):(<></>)}
+                        {walletDelete!="" ? (<p id="return-investiment-p">The total amount of {selected.currencySymbol}{selected.amount.toFixed(2)} will return to your credit card account</p>):(<></>)}
                     </div>
                     <input type="submit" id="remove-wallet-submit" value="Delete Wallet"/>
                 </form>
@@ -561,7 +561,7 @@ export default function User_Page(){
                                 <CurrencyCard key={index}
                                     currencySymbol={wallet.currencySymbol} 
                                     currencyCode={wallet.isoCode} 
-                                    amount={wallet.amount}
+                                    amount={wallet.amount.toFixed(2)}
                                     depositFunction={()=>{setAddDeposit(true);setSelectedCurrency(wallet.isoCode)}}
                                     withdrawalFunction={()=>{setAddWithdrawal(true);setSelectedCurrency(wallet.isoCode);setLimit(wallet.amount)}}
                                 />
