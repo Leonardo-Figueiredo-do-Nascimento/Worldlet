@@ -1,5 +1,6 @@
 .user-page{
-    height: 100%;background-image: url('../../../public/User World 3.jpg');
+    height: 100%;
+    background-image: url('../../../public/User World 3.jpg');
     background-size: cover;
     width: 100%;
     overflow-y: auto;

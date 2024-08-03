@@ -1,20 +1,85 @@
 import { useState,useEffect } from "react"
 import { Link,useParams } from "react-router-dom"
 import UserHeader from "../../components/UserHeader/UserHeader"
-import './Transactions.css'
+import axios from "axios"
 import config from '../serverURL'
+import './Transactions.css'
 const serverURL = config.serverAdress
 
 export default function Transactions(){
 
+    const [transactions,setTransactions] = useState([])
+    const [wallets, setWallets] = useState([])
+    const [userData,setUserData] = useState()
     const {user_name} = useParams()
 
+    //UseEffect to get user data
+    useEffect(() => {
+        async function getData() {
+            try {
+                const response = await axios.get(`${serverURL}/user/${user_name}`)
+                setUserData(response.data)
+            } catch (error) {
+                console.log("Error: ", error)
+            }
+        }
+        getData()
+    }, [user_name])
+    useEffect(() => {
+        async function getData() {
+            try {
+                const response = await axios.get(`${serverURL}/${user_name}/wallets`)
+                setWallets(response.data)
+            } catch (error) {
+                console.log("Error: ", error)
+            }
+        }
+        getData()
+    }, [])
+    useEffect(()=>{
+        async function getData() {
+            try {
+                const response = await axios.get(`${serverURL}/${user_name}/transactions`)
+                setTransactions(response.data)
+            } catch (error) {
+                console.log("Error: ", error)
+            }
+        }
+        getData()
+    },[])
+
+    const formatDate = (dateString) => {
+        const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+        return new Date(dateString).toLocaleDateString('en-US', options);
+    };
+
     return(
-        <div>
+        <div className="transaction-page">
             <UserHeader/>
-            <div className="user-container">
-                <div className="overlay">
+            <div className="transaction-container">
+                <div className="transaction-overlay">
                     <Link to={`/account/${user_name}`} id="go-back"><img src="../../../public/Go back icon.png"/></Link>
+                    <div className="transactions-div">
+                        <div className="transaction-column">
+                            <p>Currency</p>
+                            <p>Operation</p>
+                            <p style={{textAlign:"center"}}>Amount</p>
+                            <p>Date</p>
+                        </div>
+                        {console.log(transactions)}
+                        {transactions.map((transaction,index)=>{
+                            const formattedDate = formatDate(transaction.operationDate)
+                            const currency = wallets.find(wallet => wallet.currency === transaction.currency)
+                            console.log(currency)
+                            return(
+                                <div className="transaction-card" key={index}>
+                                    <h4>{currency.isoCode}</h4>
+                                    <p>{transaction.operation}</p>
+                                    <p style={{textAlign:"center"}}>{transaction.operationAmount}</p>
+                                    <p>{formattedDate}</p>
+                                </div>
+                        )})}
+                    </div>
                 </div>
             </div>
         </div>

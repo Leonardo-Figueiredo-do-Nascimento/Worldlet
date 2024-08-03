@@ -1,13 +1,70 @@
+.transaction-page{
+    height: 100%;
+    background-image: url('../../../public/User World 3.jpg');
+    background-size: cover;
+    width: 100%;
+    overflow-y: auto;
+}
+.transaction-container{
+    height: 100%;
+    width: 100%;
+}
+.transaction-overlay {
+    min-height: 100%;
+    height: auto;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
 #go-back{
     height: 9vh;
     width: 9vh;
+    top: 5%;
     margin-right: 90%;
-    margin-bottom: 40%;
+    position: absolute;
 }
-
 #go-back img{
     height: 9vh;
     width: 9vh;
     border-radius: 100%;
     position: absolute;
+}
+
+.transactions-div{
+    height: 70vh;
+    width: 60%;
+    border-radius: 50px;
+    padding: 2vh;
+    background-color: gray;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+}
+.transaction-column{
+    height: 25%;
+    width: 80%;
+    margin-bottom: 3%;
+    color: white;
+    background-color: rgb(59, 56, 56);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 3vh;
+}
+.transaction-card{
+    height: 25%;
+    width: 80%;
+    margin-bottom: 3%;
+    padding: 1vh;
+    background-color: whitesmoke;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    font-size: 3vh;
 }
