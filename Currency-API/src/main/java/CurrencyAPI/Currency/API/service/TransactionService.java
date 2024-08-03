@@ -20,11 +20,7 @@ public class TransactionService {
         Transaction transaction = new Transaction(operation,new Date(),opAmount,currency,sender,recipient,senderCard);
         repository.save(transaction);
     }
-    public void createTransaction(Transaction transaction){
-        repository.save(transaction);
-    }
-
-    public List<Transaction> getUserTransactions(Optional<User> user) {
-        return repository.findAllBySenderUser(user);
+    public List<Transaction> getUserTransactions(Optional<User> userSender,Optional<User> userRecipient) {
+        return repository.findBySenderUserOrRecipientUser(userSender,userRecipient);
     }
 }

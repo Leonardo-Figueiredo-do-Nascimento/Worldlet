@@ -18,6 +18,6 @@ public class TransactionController {
     private UserService userService;
     @GetMapping
     public List<Transaction> getAllTransactions(@PathVariable("user_name") String userName){
-        return transactionService.getUserTransactions(userService.getUserByName(userName));
+        return transactionService.getUserTransactions(userService.getUserByName(userName),userService.getUserByName(userName));
     }
 }
