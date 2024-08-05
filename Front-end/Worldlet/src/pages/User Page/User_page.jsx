@@ -312,8 +312,12 @@ export default function User_Page(){
             const fontWallet = wallets.find(wallet => wallet.isoCode === walletIsoCode);
             const targetWallet = wallets.find(wallet => wallet.isoCode === targetCurrency);
             ()=>setWalletCard(fontWallet.walletCard)
-            if(targetWallet){
-                if(amount>0 && amount<=convertLimit){
+
+            if(amount>0 && amount<=convertLimit){
+                if(amount>convertLimit){
+                    alert("Currency conversion cannot be processed because the balance is insufficient")
+                }
+                if(targetWallet){
                     try {
                         const originalResponse = await axios.put(`${serverURL}/${user_name}/wallets/withdraw-wallet/${walletIsoCode}/${amount}`)    
                         const originalResponseData = originalResponse.data
@@ -332,13 +336,10 @@ export default function User_Page(){
                     } catch (error){
                         console.log("Error: ",error)
                     }
-                } else{
-                    alert("Currency conversion cannot be processed because the balance is insufficient")
-                }
-            } else {
-                const walletData = JSON.stringify(convertWallet)
-                console.log(walletData)
-                try {
+                } else if(targetWallet==null){
+                    const walletData = JSON.stringify(convertWallet)
+                    console.log(walletData)
+                    try {
                         const postResponse = await axios.post(`${serverURL}/${user_name}/wallets/new-wallet`,walletData, {
                                 headers: {
                                     'Content-Type': 'application/json',
@@ -359,10 +360,10 @@ export default function User_Page(){
                             } else {
                                 console.log('Update error:', postResponseData);
                             }            
-                }catch (error){
-                        console.log("Error: ",error)
-                }
-            }
+                    }catch (error){
+                            console.log("Error: ",error)
+                    }
+                }}
         }
     }
     const transfer = async (e) =>{

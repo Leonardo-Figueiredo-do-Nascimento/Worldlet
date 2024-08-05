@@ -67,7 +67,20 @@
     flex-direction: column;
     z-index: 2;
 }
-.wallet-form,.deposit-form,.withdrawal-form,.transfer-form,.convert-form,.remove-form{
+.wallet-form{
+    min-height: 50%;
+    max-height: 80%;
+    width: 30%;
+    color: white;
+    background-color: rgb(34, 53, 73);
+    display: flex;
+    border-radius: 20px;
+    border: 0.5vh solid white;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.deposit-form,.withdrawal-form,.transfer-form,.convert-form,.remove-form{
     height: 50%;
     width: 30%;
     color: white;
